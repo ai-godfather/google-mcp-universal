@@ -29,7 +29,7 @@ pip3 install fastmcp google-ads python-dotenv "pydantic>=2.0" google-api-python-
 
 # 3. Get absolute path to this directory
 MCP_DIR="$(cd "$(dirname "$0")" && pwd)"
-SKILLS_DIR="$MCP_DIR/skills/google-ads-manager"
+SKILLS_DIR="$MCP_DIR/skills/google-mcp-universal"
 echo "[2/4] Plugin directory: $MCP_DIR"
 
 # 4. Run interactive config setup (if no config.json yet)

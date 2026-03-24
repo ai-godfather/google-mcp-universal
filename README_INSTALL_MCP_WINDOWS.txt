@@ -128,7 +128,7 @@ Krok 3: Zainstaluj plugin w Claude Desktop
           .claude-plugin\
             plugin.json
           skills\
-            google-ads-manager\
+            google-mcp-universal\
               google_ads_mcp.py    <-- glowny serwer MCP
               batch_optimizer.py
               ... (reszta plikow .py)
@@ -272,7 +272,7 @@ Krok 5: Edytuj konfiguracje Claude Desktop
       "google-ads": {
         "command": "python",
         "args": [
-          "C:\\MCP\\google-ads-universal\\skills\\google-ads-manager\\google_ads_mcp.py"
+          "C:\\MCP\\google-ads-universal\\skills\\google-mcp-universal\\google_ads_mcp.py"
         ],
         "env": {
           "GOOGLE_ADS_DEVELOPER_TOKEN": "twoj_developer_token",
@@ -508,7 +508,7 @@ PROBLEM: "google.auth.exceptions.RefreshError"
 PROBLEM: Serwer MCP startuje ale nie ma narzedzi
   -> Sprawdz sciezke do google_ads_mcp.py w konfiguracji
   -> Poprawna sciezka wskazuje na:
-       skills\google-ads-manager\google_ads_mcp.py
+       skills\google-mcp-universal\google_ads_mcp.py
      (NIE na folder glowny pluginu)
 
 PROBLEM: config.json nie jest ladowany

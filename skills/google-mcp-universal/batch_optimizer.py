@@ -15312,7 +15312,7 @@ def register_batch_tools(mcp_app):
             "summary": {},
         }
 
-        # Navigate up from skills/google-ads-manager/ to project root (4 levels)
+        # Navigate up from skills/google-mcp-universal/ to project root (4 levels)
         _project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
         blacklist_dir = os.path.join(_project_root, "dat", "BLACKLIST", "gMerchant")
 

@@ -1,5 +1,5 @@
 ---
-name: google-ads-manager
+name: google-mcp-universal
 description: |
   Universal Google Ads campaign manager. Use this skill whenever the user mentions Google Ads, campaigns, keywords, ad groups, bidding, search terms, ad performance, ROAS, CPC, CTR, conversions, budgets, or anything related to paid search/display advertising management. Also trigger when the user asks about campaign optimization, negative keywords, quality scores, or ad assets. This skill provides account context and best practices so Claude can manage campaigns without asking for IDs or setup details. ALWAYS use this skill for any Google Ads related task — even simple ones like checking campaign status or pausing a keyword.
 ---

@@ -390,7 +390,7 @@ Open the config file in a text editor and add the `google-ads` server to the `mc
     "google-ads": {
       "command": "python",
       "args": [
-        "/FULL/PATH/TO/google-mcp-universal/skills/google-ads-manager/google_ads_mcp.py"
+        "/FULL/PATH/TO/google-mcp-universal/skills/google-mcp-universal/google_ads_mcp.py"
       ],
       "env": {
         "GOOGLE_ADS_DEVELOPER_TOKEN": "ABcDeFgHiJkLmNoPqRs",
@@ -410,12 +410,12 @@ Open the config file in a text editor and add the `google-ads` server to the `mc
 
 **macOS example path:**
 ```
-/Users/yourname/Projects/google-mcp-universal/skills/google-ads-manager/google_ads_mcp.py
+/Users/yourname/Projects/google-mcp-universal/skills/google-mcp-universal/google_ads_mcp.py
 ```
 
 **Windows example path:**
 ```
-C:\\Users\\yourname\\Projects\\google-mcp-universal\\skills\\google-ads-manager\\google_ads_mcp.py
+C:\\Users\\yourname\\Projects\\google-mcp-universal\\skills\\google-mcp-universal\\google_ads_mcp.py
 ```
 
 #### Step 3: If You Have Other MCP Servers Already
@@ -432,7 +432,7 @@ If you already have other MCP servers configured (like filesystem, GitHub, etc.)
     "google-ads": {
       "command": "python",
       "args": [
-        "/Users/yourname/Projects/google-mcp-universal/skills/google-ads-manager/google_ads_mcp.py"
+        "/Users/yourname/Projects/google-mcp-universal/skills/google-mcp-universal/google_ads_mcp.py"
       ],
       "env": {
         "GOOGLE_ADS_DEVELOPER_TOKEN": "YOUR_TOKEN",
@@ -474,7 +474,7 @@ For Claude Code (command-line interface), add the server to your Claude Code MCP
 # Add the MCP server via CLI
 claude mcp add google-ads \
   --command python \
-  --args "/FULL/PATH/TO/google-mcp-universal/skills/google-ads-manager/google_ads_mcp.py" \
+  --args "/FULL/PATH/TO/google-mcp-universal/skills/google-mcp-universal/google_ads_mcp.py" \
   --env GOOGLE_ADS_DEVELOPER_TOKEN=YOUR_TOKEN \
   --env GOOGLE_ADS_CLIENT_ID=YOUR_CLIENT_ID \
   --env GOOGLE_ADS_CLIENT_SECRET=YOUR_SECRET \
@@ -489,7 +489,7 @@ Or manually edit `.claude/settings.json`:
   "mcpServers": {
     "google-ads": {
       "command": "python",
-      "args": ["/FULL/PATH/TO/google-mcp-universal/skills/google-ads-manager/google_ads_mcp.py"],
+      "args": ["/FULL/PATH/TO/google-mcp-universal/skills/google-mcp-universal/google_ads_mcp.py"],
       "env": {
         "GOOGLE_ADS_DEVELOPER_TOKEN": "YOUR_TOKEN",
         "GOOGLE_ADS_CLIENT_ID": "YOUR_CLIENT_ID.apps.googleusercontent.com",
@@ -543,7 +543,7 @@ export GOOGLE_ADS_REFRESH_TOKEN="YOUR_REFRESH_TOKEN"
 export GOOGLE_ADS_CUSTOMER_ID="1234567890"
 
 # Run the server (stdio mode — same as Claude Desktop uses)
-python skills/google-ads-manager/google_ads_mcp.py
+python skills/google-mcp-universal/google_ads_mcp.py
 ```
 
 The server communicates via stdin/stdout using the MCP protocol. If it starts without errors, your credentials are working.
