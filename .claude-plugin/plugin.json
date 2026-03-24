@@ -1,13 +1,10 @@
 {
   "name": "google-mcp-universal",
   "version": "1.0.0",
-  "description": "Universal Google Ads campaign manager — 148 tools (92 core + 56 batch), 27 slash commands. Supports any Google Ads account with batch product setup, AI ad copy generation (bring your own OpenAI key), keyword intelligence, Shopping/PMax optimization, location/device/time analysis, PageSpeed audits, and multi-country campaign management.",
+  "description": "Universal Google Ads campaign manager — 148 tools (92 core + 56 batch), 27 slash commands. Supports any Google Ads account with batch product setup, AI ad copy generation, keyword intelligence, Shopping/PMax optimization, location/device/time analysis, PageSpeed audits, and multi-country campaign management. Author: God_FatherAI — https://github.com/ai-godfather/google-mcp-universal",
   "author": {
-    "name": "God_FatherAI",
-    "url": "https://x.com/God_FatherAI"
+    "name": "God_FatherAI"
   },
-  "license": "MIT",
-  "homepage": "https://github.com/ai-godfather/google-mcp-universal",
   "keywords": [
     "google-ads",
     "ppc",
@@ -26,17 +23,5 @@
     "ai-ad-copy",
     "multi-country",
     "merchant-center"
-  ],
-  "configuration": {
-    "required": [
-      "GOOGLE_ADS_CUSTOMER_ID"
-    ],
-    "optional": [
-      "GOOGLE_ADS_MCC_ID",
-      "GOOGLE_ADS_DEVELOPER_TOKEN",
-      "OPENAI_API_KEY",
-      "ANTHROPIC_API_KEY",
-      "GOOGLE_ADS_PLUGIN_CONFIG"
-    ]
-  }
+  ]
 }
