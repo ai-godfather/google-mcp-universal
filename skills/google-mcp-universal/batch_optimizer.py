@@ -479,15 +479,18 @@ NP_FEEDS: Dict[str, Dict[str, list]] = _config.get('np_feeds', {})
 # Campaign name format: {CC} | {Country} | {Type} | NEW_PRODUCTS | {Brand}
 # ---------------------------------------------------------------------------
 def _domain_to_brand(domain: str) -> str:
-    """Map shop domain to brand code for campaign naming."""
+    """Map shop domain to brand code for campaign naming.
+
+    Override this by setting 'brand_codes' in config.json, e.g.:
+    {"brand_codes": {"outlet.myshop.com": "OUTLET", "premium.myshop.com": "PREM"}}
+    """
+    # Check config-based brand mapping first
+    brand_codes = _config.get('brand_codes', {})
     d = domain.lower()
-    if "vogler" in d:
-        return "VGL"
-    elif "dobra-oferta" in d:
-        return "DO"
-    elif "herbalhaus" in d:
-        return "HBS"
-    return "HLE"  # default fallback
+    for pattern, code in brand_codes.items():
+        if pattern.lower() in d:
+            return code
+    return "MAIN"  # default fallback
 
 
 def _get_np_shops_for_country(country_code: str, feed_category: str = "bluewinston") -> list:
@@ -597,10 +600,10 @@ def _get_np_campaign_name(country_code: str, campaign_type: str, brand: str, upd
     Args:
         country_code: "HR", "IT", etc.
         campaign_type: "Search" or "Shopping"
-        brand: "HLE", "VGL", "HLP", etc.
+        brand: "MAIN", "OUTLET", "PREM", etc. (from config brand_codes)
         update_date: Override date (YYYY-MM-DD). Defaults to today.
 
-    Returns: e.g. "DE | Germany | Search | NEW_PRODUCTS | HLE | CLAUDE_MCP - last updated: 2026-03-12"
+    Returns: e.g. "DE | Germany | Search | NEW_PRODUCTS | MAIN | CLAUDE_MCP - last updated: 2026-03-12"
     """
     cc = country_code.upper()
     country_name = COUNTRY_NAMES_EN.get(cc, XML_FEEDS.get(cc, {}).get("name", cc))
@@ -6044,7 +6047,7 @@ def process_single_product(
     product_url = feed_data.get("link", f"https://{config['domain']}/products/{handle}")
 
     # --- Domain guardrail: ensure URL matches expected domain for this country ---
-    # When feed_domain_override is set (e.g. HLE new products feed), trust the feed URL
+    # When feed_domain_override is set (e.g. brand-specific new products feed), trust the feed URL
     # and skip the guardrail — the feed domain IS the correct domain for this campaign.
     if feed_domain_override:
         from urllib.parse import urlparse as _urlparse
@@ -8456,8 +8459,7 @@ def register_batch_tools(mcp_app):
                 ],
             },
             "active_campaigns": {
-                "RO": {"campaign_id": "22734106761", "name": "RO - Search | Product | BW (Romania) | HLP | ALL_PRODUCTS_NEW | ECOM_PROFIT"},
-                "TR": {"campaign_id": "20452025214", "name": "TR - Search | Product | BW (Turkey) | HLP | ALL_PRODUCTS_NEW | ECOM_PROFIT"},
+                "_note": "Active campaigns are loaded dynamically from your Google Ads account via batch_sync_from_api",
             },
             "session_continuity": {
                 "changelog_db": "Use batch_changelog_read() to see all changes, fixes, and pending work — stored in SQLite, auto-grows.",
@@ -12485,7 +12487,7 @@ def register_batch_tools(mcp_app):
         customer_id: str = Field(default=CUSTOMER_ID, description="Customer ID (from config)")
         campaign_id: str = Field(description="Campaign ID")
         country_code: str = Field(description="Country code (e.g. DE, PL)")
-        brand: str = Field(default="HLE", description="Brand: HLE, HLP, VGL")
+        brand: str = Field(default="MAIN", description="Brand code (from config brand_codes, e.g. MAIN, OUTLET)")
         auto_fix: bool = Field(default=False, description="Auto-fix issues found")
 
     @mcp_app.tool()
@@ -15292,9 +15294,7 @@ def register_batch_tools(mcp_app):
         _gam._ensure_merchant_client()
         merchant_center_client = _gam.merchant_center_client
 
-        _mca = _config.get('merchant_center', {}).get('mca_accounts', {})
-        MCA_HLP = _mca.get('HLP', '')
-        MCA_HLE = _mca.get('HLE', '')
+        _mca_ids = _config.get('merchant_center', {}).get('mca_ids', [])
 
         result = {
             "status": "success",
@@ -15324,7 +15324,7 @@ def register_batch_tools(mcp_app):
                 "name": f"Direct: {request.merchant_id}",
             })
         else:
-            for mca_id in [MCA_HLP, MCA_HLE]:
+            for mca_id in _mca_ids:
                 try:
                     resp = merchant_center_client.accounts().list(merchantId=mca_id, maxResults=250).execute()
                     for acc in resp.get("resources", []):

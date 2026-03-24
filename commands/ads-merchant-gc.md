@@ -67,74 +67,35 @@ For `eu.yourstore.com` and `eu2.yourstore.com`, each language has its OWN blackl
 
 | Merchant ID | Country | Shop URL | PRIMARY blacklist file | Country File |
 |------------|---------|----------|----------------------|------------|
-| 621165580 | DE | eu.yourstore.com/de | `eu.yourstore.com_de.txt` | `DE.txt` |
-| 764468666 | AT | eu.yourstore.com/de | `eu.yourstore.com_de.txt` | `DE.txt` |
-| 5300832354 | ES | eu.yourstore.com/es | `eu.yourstore.com_es.txt` | `ES.txt` |
-| 621138656 | GR | eu.yourstore.com/el | `eu.yourstore.com_el.txt` | `GR.txt` |
-| 621121165 | IT | eu.yourstore.com/it | `eu.yourstore.com_it.txt` | `IT.txt` |
-| 621169090 | SK | eu.yourstore.com/sk | `eu.yourstore.com_sk.txt` | `SK.txt` |
-| 621135041 | FR | eu2.yourstore.com/fr | `eu2.yourstore.com_fr.txt` | `FR.txt` |
+| MERCHANT_ID_EU_DE | DE | eu.yourstore.com/de | `eu.yourstore.com_de.txt` | `DE.txt` |
+| MERCHANT_ID_EU_AT | AT | eu.yourstore.com/de | `eu.yourstore.com_de.txt` | `DE.txt` |
+| MERCHANT_ID_EU_ES | ES | eu.yourstore.com/es | `eu.yourstore.com_es.txt` | `ES.txt` |
+| MERCHANT_ID_EU_GR | GR | eu.yourstore.com/el | `eu.yourstore.com_el.txt` | `GR.txt` |
+| MERCHANT_ID_EU_IT | IT | eu.yourstore.com/it | `eu.yourstore.com_it.txt` | `IT.txt` |
+| MERCHANT_ID_EU_SK | SK | eu.yourstore.com/sk | `eu.yourstore.com_sk.txt` | `SK.txt` |
+| MERCHANT_ID_EU2_FR | FR | eu2.yourstore.com/fr | `eu2.yourstore.com_fr.txt` | `FR.txt` |
 
 ### Complete Merchant ID → Blacklist File Mapping
 
-#### Your Brand (MCA: YOUR_MCA_ID)
+#### Primary MCA (Account 1)
 
 | Merchant ID | CC | Primary Blacklist File | Country File |
 |------------|----|-----------------------|------------|
-| 5385323980 | AE | `ae.yourstore.com.txt` | `AE.txt` |
-| 5384778765 | AR | `ar.yourstore.com.txt` | `AR.txt` |
-| 5424496852 | AU | `au.yourstore.com.txt` | `AU.txt` |
-| 5384860346 | BD | `bd.yourstore.com.txt` | `BD.txt` |
-| 5390310036 | BE | `be.yourstore.com.txt` | `BE.txt` |
-| 5424487591 | CA | `ca.yourstore.com.txt` | `CA.txt` |
-| 5346921824 | CI | `ci.yourstore.com.txt` | `CI.txt` |
-| 5388009468 | CO | `co.yourstore.com.txt` | `CO.txt` |
-| 5385086432 | CR | `cr.yourstore.com.txt` | `CR.txt` |
-| 5551119887 | CZ | `cz.yourstore.com.txt` | `CZ.txt` |
-| 5529739976 | DE | `de.yourstore.com.txt` | `DE.txt` |
-| 5385325432 | DZ | `dz.yourstore.com.txt` | — |
-| 5385003414 | EC | `ec.yourstore.com.txt` | `EC.txt` |
-| 5385284042 | EG | `eg.yourstore.com.txt` | — |
-| 5529402934 | ES | `es.yourstore.com.txt` | `ES.txt` |
-| 5529898397 | FR | `fr.yourstore.com.txt` | `FR.txt` |
-| 5385086156 | GT | `gt.yourstore.com.txt` | `GT.txt` |
-| 5529216774 | IT | `it.yourstore.com.txt` | `IT.txt` |
-| 5348969359 | KZ | `kz.yourstore.com.txt` | `KZ.txt` |
-| 5385325411 | LB | `lb.yourstore.com.txt` | `LB.txt` |
-| 5385325408 | MA | `ma.yourstore.com.txt` | — |
-| 5390853035 | NL | `nl.yourstore.com.txt` | `NL.txt` |
-| 5424367863 | NZ | `nz.yourstore.com.txt` | `NZ.txt` |
-| 5384895476 | PA | `pa.yourstore.com.txt` | — |
-| 5388025236 | PE | `pe.yourstore.com.txt` | `PE.txt` |
-| 5388119048 | PH | `ph.yourstore.com.txt` | — |
-| 5390860469 | RO | `ro.yourstore.com.txt` | `RO.txt` |
-| 5550318966 | SA | `sa.yourstore.com.txt` | `SA.txt` |
-| 5627429950 | SE | `se.yourstore.com.txt` | — |
-| 5292476541 | PL | `shop.yourstore.com.txt` | — |
-| 5529899042 | SK | `sk.yourstore.com.txt` | `SK.txt` |
-| 5422943552 | TH | `th.yourstore.com.txt` | `TH.txt` |
-| 5384898868 | UA | `ua.yourstore.com.txt` | `UA.txt` |
-| 5384813526 | UG | `ug.yourstore.com.txt` | `UG.txt` |
-| 5424648317 | UK | `uk.yourstore.com.txt` | — |
-| 5424327393 | US | `us.yourstore.com.txt` | `US.txt` |
-| 5346990613 | ZA | `za.yourstore.com.txt` | `ZA.txt` |
+| MERCHANT_ID_1 | AE | `ae.yourstore.com.txt` | `AE.txt` |
+| MERCHANT_ID_2 | AR | `ar.yourstore.com.txt` | `AR.txt` |
+| MERCHANT_ID_3 | AU | `au.yourstore.com.txt` | `AU.txt` |
+| MERCHANT_ID_4 | CA | `ca.yourstore.com.txt` | `CA.txt` |
+| ... | ... | ... | ... |
 
-#### Your Brand (MCA: YOUR_MCA_ID)
+#### Secondary MCA (Account 2)
 
 | Merchant ID | CC | Primary Blacklist File | Country File | Notes |
 |------------|----|-----------------------|------------|-------|
-| 669341921 | PL | `pl.yourstore.com.txt` | `PL.txt` | |
-| 621165580 | DE | `eu.yourstore.com_de.txt` | `DE.txt` | ⚠️ NOT eu.yourstore.com.txt! |
-| 764468666 | AT | `eu.yourstore.com_de.txt` | `DE.txt` | AT uses DE feed (same primary) |
-| 5300832354 | ES | `eu.yourstore.com_es.txt` | `ES.txt` | ⚠️ NOT eu.yourstore.com.txt! |
-| 621138656 | GR | `eu.yourstore.com_el.txt` | `GR.txt` | ⚠️ NOT eu.yourstore.com.txt! |
-| 621121165 | IT | `eu.yourstore.com_it.txt` | `IT.txt` | ⚠️ NOT eu.yourstore.com.txt! |
-| 621169090 | SK | `eu.yourstore.com_sk.txt` | `SK.txt` | ⚠️ NOT eu.yourstore.com.txt! |
-| 621135041 | FR | `eu2.yourstore.com_fr.txt` | `FR.txt` | ⚠️ NOT eu2.yourstore.com.txt! |
-| 617096288 | RO | `ro.yourstore.com.txt` | `RO.txt` | |
-| 621114233 | CZ | `cz.yourstore.com.txt` | `CZ.txt` | |
-| 620934460 | HU | `hu.yourstore.com.txt` | `HU.txt` | ⚠️ HU Pharm uses Express domain! |
-| 5627132133 | TR | `tr.yourstore.com.txt` | — | |
+| MERCHANT_ID_EU_PL | PL | `pl.yourstore.com.txt` | `PL.txt` | |
+| MERCHANT_ID_EU_DE | DE | `eu.yourstore.com_de.txt` | `DE.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| MERCHANT_ID_EU_ES | ES | `eu.yourstore.com_es.txt` | `ES.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| MERCHANT_ID_EU_GR | GR | `eu.yourstore.com_el.txt` | `GR.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| ... | ... | ... | ... | |
 
 ### How to Determine the Correct File
 

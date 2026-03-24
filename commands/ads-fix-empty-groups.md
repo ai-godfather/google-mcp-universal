@@ -33,7 +33,7 @@ Each campaign belongs to one shop/domain - respect that boundary.
 ```
 /ads-fix-empty-groups          -- scan all campaigns
 /ads-fix-empty-groups HU       -- scan only HU campaigns
-/ads-fix-empty-groups HU 20458023995  -- scan specific campaign
+/ads-fix-empty-groups HU YOUR_CAMPAIGN_ID  -- scan specific campaign
 ```
 
 Always use customer_id `YOUR_CUSTOMER_ID`.

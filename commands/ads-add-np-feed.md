@@ -74,7 +74,7 @@ Present a summary table in Polish:
 
 ## Multi-shop countries
 
-If the country has multiple shops (e.g., PL has 5: HLP, DO, HLE, VGL, HBS), ask the user which shop/domain to set up, or offer to set up all of them sequentially.
+If the country has multiple shops (e.g., a country with 3 shops: MAIN, OUTLET, PREMIUM), ask the user which shop/domain to set up, or offer to set up all of them sequentially.
 
 ## Language mapping reference
 
