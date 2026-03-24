@@ -8384,7 +8384,7 @@ def register_batch_tools(mcp_app):
             "status": "success",
             "system": "Universal Batch Campaign Optimizer v2",
             "customer_id": CUSTOMER_ID,
-            "mcc_id": "7624431817",
+            "mcc_id": _config.get('account', {}).get('mcc_id', ''),
             "overview": (
                 "This system manages Google Ads Search campaigns "
                 "across 20+ countries. It creates ad groups with RSAs (A/B/C variants), callouts, "

@@ -1,5 +1,5 @@
 # Python
-__pycache__/
+**/__pycache__/
 *.pyc
 *.pyo
 *.egg-info/
@@ -27,7 +27,7 @@ config.json
 *.swo
 
 # OS
-.DS_Store
+**/.DS_Store
 Thumbs.db
 
 # Plugin builds

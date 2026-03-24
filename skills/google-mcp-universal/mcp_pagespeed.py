@@ -698,7 +698,7 @@ async def pagespeed_analyze_theme(request: Dict) -> Dict:
     Returns findings sorted by estimated impact.
     """
     repo_name = request.get("repo_name")
-    repos_path = request.get("repos_path") or os.getenv("REPOS_PATH", "/Users/pt/Sites/REPOSITORIES/ACTIVE_SHOPS")
+    repos_path = request.get("repos_path") or os.getenv("REPOS_PATH", "")
 
     if not repo_name:
         return {"error": "repo_name required"}
@@ -827,7 +827,7 @@ async def pagespeed_apply_fixes(request: Dict) -> Dict:
         repo_names = list(set(COUNTRY_TO_REPO.values()))
 
     changes = []
-    repos_path = os.getenv("REPOS_PATH", "/Users/pt/Sites/REPOSITORIES/ACTIVE_SHOPS")
+    repos_path = os.getenv("REPOS_PATH", "")
 
     for fix_id in fix_ids:
         for repo_name in repo_names:
