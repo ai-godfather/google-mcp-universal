@@ -1,0 +1,222 @@
+---
+description: Merchant Center Garbage Collection — scan for disapproved products, blacklist or appeal
+allowed-tools: ["mcp__google-ads__batch_merchant_gc", "mcp__google-ads__merchant_center_list_product_statuses", "mcp__google-ads__merchant_center_get_product_status", "mcp__google-ads__merchant_center_list_datafeeds", "mcp__google-ads__merchant_center_fetch_datafeed_now"]
+---
+
+# /ads-merchant-gc — Merchant Center Garbage Collection
+
+Scan Google Merchant Center sub-accounts for DISAPPROVED products and take appropriate action.
+
+## Arguments
+- `{merchant_id}` (optional) — specific sub-account Merchant ID. If "ALL", scans all sub-accounts under both MCAs.
+- `{country_code}` (optional) — filter to specific country (e.g., "RO", "PL")
+
+## Two Action Types
+
+### 1. BLACKLIST (automatic)
+Products with policy violations that **cannot be appealed** — they contain prohibited content:
+- Healthcare and medicine: Prescription drugs
+- Healthcare and medicine: misleading claims
+- Dangerous products (general)
+- Product policy violations
+- Misrepresentation
+- Other DISAPPROVED reasons NOT in the appeal list
+
+**Action**: Add offerId to the **CORRECT** blacklist file (see mapping below) and trigger feed refresh.
+
+### 2. APPEAL (manual — generate links)
+Products with violations that **CAN be appealed** — they are likely false positives:
+- Alcoholic beverages
+- Dangerous products (Tobacco products and related equipment)
+- Guns and parts
+- Sexual interests in personalized advertising
+- Restricted adult content
+- Adult-oriented content
+- Personalized advertising: legal restrictions
+
+**Action**: Generate Merchant Center UI links for each product so the user can manually click "Request review" → "I don't sell [category] products".
+
+**NOTE**: Google Merchant Center API does NOT support programmatic review requests. Reviews MUST be done manually in the MC UI. The tool generates direct links to speed up the process.
+
+---
+
+## ⚠️ CRITICAL: Blacklist File Mapping Rules
+
+The PHP feed generator (`WHITELIST-show-products.php`) reads **TWO files** per feed instance:
+
+1. **Primary file**: Derived from the shop URL — slash `/` replaced with underscore `_`
+2. **Country-specific blacklist file**: `{COUNTRY_CODE}.txt` (uppercase) — applied as additional layer
+
+A product blocked in **EITHER** file is blocked in the feed.
+
+### Mapping Logic (from WHITELIST-show-products.php)
+
+```
+Rule 1: Shop URL with path (eu.yourstore.com/de) → slash→underscore → eu.yourstore.com_de.txt
+Rule 2: Shop URL without path (ro.yourstore.com) → ro.yourstore.com.txt
+Rule 3: If countryCode param set (DE) → ALSO reads DE.txt as country-specific blacklist
+Rule 4: Product blocked in EITHER primary OR country file → blocked in feed
+CRITICAL: When adding products to blacklist — ALWAYS use the PRIMARY file for that shop instance!
+```
+
+### ⛔ DANGER ZONE: EU Multi-Language Instances
+
+For `eu.yourstore.com` and `eu2.yourstore.com`, each language has its OWN blacklist file.
+**`eu.yourstore.com.txt` is ONLY used when the shop URL has NO `/xx` path — it is NOT read for DE, ES, EL, IT, or SK feeds.**
+**NEVER write DE/ES/IT/GR/SK/FR products to `eu.yourstore.com.txt` or `eu2.yourstore.com.txt`.**
+
+| Merchant ID | Country | Shop URL | PRIMARY blacklist file | Country File |
+|------------|---------|----------|----------------------|------------|
+| 621165580 | DE | eu.yourstore.com/de | `eu.yourstore.com_de.txt` | `DE.txt` |
+| 764468666 | AT | eu.yourstore.com/de | `eu.yourstore.com_de.txt` | `DE.txt` |
+| 5300832354 | ES | eu.yourstore.com/es | `eu.yourstore.com_es.txt` | `ES.txt` |
+| 621138656 | GR | eu.yourstore.com/el | `eu.yourstore.com_el.txt` | `GR.txt` |
+| 621121165 | IT | eu.yourstore.com/it | `eu.yourstore.com_it.txt` | `IT.txt` |
+| 621169090 | SK | eu.yourstore.com/sk | `eu.yourstore.com_sk.txt` | `SK.txt` |
+| 621135041 | FR | eu2.yourstore.com/fr | `eu2.yourstore.com_fr.txt` | `FR.txt` |
+
+### Complete Merchant ID → Blacklist File Mapping
+
+#### Your Brand (MCA: YOUR_MCA_ID)
+
+| Merchant ID | CC | Primary Blacklist File | Country File |
+|------------|----|-----------------------|------------|
+| 5385323980 | AE | `ae.yourstore.com.txt` | `AE.txt` |
+| 5384778765 | AR | `ar.yourstore.com.txt` | `AR.txt` |
+| 5424496852 | AU | `au.yourstore.com.txt` | `AU.txt` |
+| 5384860346 | BD | `bd.yourstore.com.txt` | `BD.txt` |
+| 5390310036 | BE | `be.yourstore.com.txt` | `BE.txt` |
+| 5424487591 | CA | `ca.yourstore.com.txt` | `CA.txt` |
+| 5346921824 | CI | `ci.yourstore.com.txt` | `CI.txt` |
+| 5388009468 | CO | `co.yourstore.com.txt` | `CO.txt` |
+| 5385086432 | CR | `cr.yourstore.com.txt` | `CR.txt` |
+| 5551119887 | CZ | `cz.yourstore.com.txt` | `CZ.txt` |
+| 5529739976 | DE | `de.yourstore.com.txt` | `DE.txt` |
+| 5385325432 | DZ | `dz.yourstore.com.txt` | — |
+| 5385003414 | EC | `ec.yourstore.com.txt` | `EC.txt` |
+| 5385284042 | EG | `eg.yourstore.com.txt` | — |
+| 5529402934 | ES | `es.yourstore.com.txt` | `ES.txt` |
+| 5529898397 | FR | `fr.yourstore.com.txt` | `FR.txt` |
+| 5385086156 | GT | `gt.yourstore.com.txt` | `GT.txt` |
+| 5529216774 | IT | `it.yourstore.com.txt` | `IT.txt` |
+| 5348969359 | KZ | `kz.yourstore.com.txt` | `KZ.txt` |
+| 5385325411 | LB | `lb.yourstore.com.txt` | `LB.txt` |
+| 5385325408 | MA | `ma.yourstore.com.txt` | — |
+| 5390853035 | NL | `nl.yourstore.com.txt` | `NL.txt` |
+| 5424367863 | NZ | `nz.yourstore.com.txt` | `NZ.txt` |
+| 5384895476 | PA | `pa.yourstore.com.txt` | — |
+| 5388025236 | PE | `pe.yourstore.com.txt` | `PE.txt` |
+| 5388119048 | PH | `ph.yourstore.com.txt` | — |
+| 5390860469 | RO | `ro.yourstore.com.txt` | `RO.txt` |
+| 5550318966 | SA | `sa.yourstore.com.txt` | `SA.txt` |
+| 5627429950 | SE | `se.yourstore.com.txt` | — |
+| 5292476541 | PL | `shop.yourstore.com.txt` | — |
+| 5529899042 | SK | `sk.yourstore.com.txt` | `SK.txt` |
+| 5422943552 | TH | `th.yourstore.com.txt` | `TH.txt` |
+| 5384898868 | UA | `ua.yourstore.com.txt` | `UA.txt` |
+| 5384813526 | UG | `ug.yourstore.com.txt` | `UG.txt` |
+| 5424648317 | UK | `uk.yourstore.com.txt` | — |
+| 5424327393 | US | `us.yourstore.com.txt` | `US.txt` |
+| 5346990613 | ZA | `za.yourstore.com.txt` | `ZA.txt` |
+
+#### Your Brand (MCA: YOUR_MCA_ID)
+
+| Merchant ID | CC | Primary Blacklist File | Country File | Notes |
+|------------|----|-----------------------|------------|-------|
+| 669341921 | PL | `pl.yourstore.com.txt` | `PL.txt` | |
+| 621165580 | DE | `eu.yourstore.com_de.txt` | `DE.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| 764468666 | AT | `eu.yourstore.com_de.txt` | `DE.txt` | AT uses DE feed (same primary) |
+| 5300832354 | ES | `eu.yourstore.com_es.txt` | `ES.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| 621138656 | GR | `eu.yourstore.com_el.txt` | `GR.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| 621121165 | IT | `eu.yourstore.com_it.txt` | `IT.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| 621169090 | SK | `eu.yourstore.com_sk.txt` | `SK.txt` | ⚠️ NOT eu.yourstore.com.txt! |
+| 621135041 | FR | `eu2.yourstore.com_fr.txt` | `FR.txt` | ⚠️ NOT eu2.yourstore.com.txt! |
+| 617096288 | RO | `ro.yourstore.com.txt` | `RO.txt` | |
+| 621114233 | CZ | `cz.yourstore.com.txt` | `CZ.txt` | |
+| 620934460 | HU | `hu.yourstore.com.txt` | `HU.txt` | ⚠️ HU Pharm uses Express domain! |
+| 5627132133 | TR | `tr.yourstore.com.txt` | — | |
+
+### How to Determine the Correct File
+
+When `batch_merchant_gc` returns a product with `domain: "eu.yourstore.com"`, you CANNOT just use `{domain}.txt`. You MUST:
+
+1. Look up the **merchant_id** in the mapping table above
+2. Use the **PRIMARY blacklist file** from the table
+3. The `domain` field from the API is the BASE domain — it does NOT include the language path
+
+**Example**: MC 621165580 returns `domain: "eu.yourstore.com"` → the correct file is `eu.yourstore.com_de.txt` (NOT `eu.yourstore.com.txt`)
+
+**Canonical reference**: `dat/BLACKLIST/BLACKLIST_FILE_MAPPING.csv`
+
+---
+
+## Workflow
+
+### Step 1: DRY RUN (always start here)
+```
+batch_merchant_gc(
+    merchant_id={merchant_id or None for ALL},
+    country_code={country_code or None},
+    dry_run=True
+)
+```
+
+Present results in Polish:
+- Summary table: accounts scanned, products checked, to_blacklist count, to_appeal count, already_blacklisted
+- BLACKLIST table: offerId, title, **correct blacklist file** (from mapping — NOT just domain), reasons
+- APPEAL table: offerId, title, domain, reasons, MC review link
+
+⚠️ **VERIFY**: For each product in `to_blacklist`, confirm the correct blacklist file using the merchant_id mapping. If the tool returns `domain: "eu.yourstore.com"`, resolve it to the correct `_xx.txt` file.
+
+### Step 2: CONFIRM & EXECUTE (after user approval)
+```
+batch_merchant_gc(
+    merchant_id={same},
+    country_code={same},
+    dry_run=False,
+    refresh_feeds_after_blacklist=True
+)
+```
+
+Present:
+- Which blacklist files were updated + how many new entries
+- ⚠️ **DOUBLE-CHECK** that `blacklist_files_updated` shows the correct `_xx.txt` files, not the base domain file
+- Which feeds were refreshed
+- APPEAL links table (user must click these manually)
+
+### Step 3: GIT COMMIT & PUSH & DEPLOY (after blacklist updates)
+If any blacklist files were updated in Step 2, commit, push and deploy to production:
+```bash
+# 1. Commit & push locally
+cd /path/to/your-project
+git add dat/BLACKLIST/gMerchant/*.txt
+git commit -m "GC: blacklist [N] disapproved products ([reasons summary])"
+git push origin main
+
+# 2. Deploy to production (adjust to your deployment workflow)
+# e.g.: ssh yourserver "cd /path/to/app && git pull origin main"
+```
+If production has local changes and fast-forward fails, use: `git merge origin/main --no-edit`
+
+### Step 4: REFRESH ALL PRODUCT FEEDS in Merchant Center
+After blacklist commit+push, refresh ALL data feeds in Merchant Center for the affected merchant accounts.
+
+For each affected MC sub-account:
+1. List all datafeeds: `merchant_center_list_datafeeds(merchant_id={mid})`
+2. For each datafeed, trigger immediate fetch: `merchant_center_fetch_datafeed_now(merchant_id={mid}, datafeed_id={feed_id})`
+
+**Present in Polish**: list of refreshed feeds per MC account.
+
+### Step 5: APPEAL SUMMARY
+Generate a clean list of all appeal links grouped by merchant_id for the user to process in the MC UI.
+
+## Important Notes
+- ALWAYS start with dry_run=True
+- ALWAYS present results in Polish
+- ALWAYS ask for confirmation before executing with dry_run=False
+- After blacklisting: ALWAYS do git commit+push, then refresh ALL feeds in affected MC accounts
+- The appeal MC UI links format: `https://merchants.google.com/mc/items/details?a={merchant_id}&offerId={offer_id}`
+- For appeals, the user needs to select "I don't sell [category] products" and click "Request review"
+- Customer ID: `YOUR_CUSTOMER_ID`
+- **NEVER write products to `eu.yourstore.com.txt` or `eu2.yourstore.com.txt`** unless the product is specifically from the base domain with no language path
+- The canonical reference for all mappings is `dat/BLACKLIST/BLACKLIST_FILE_MAPPING.csv`

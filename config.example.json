@@ -1,0 +1,157 @@
+{
+  "_comment": "Google Ads Universal Plugin — Configuration File",
+  "_instructions": "Copy this file to config.json and fill in your account details. Or run: python setup_account.py",
+
+  "account": {
+    "customer_id": "1234567890",
+    "mcc_id": "",
+    "alias": "my-brand",
+    "company_name": "Your Company Name",
+    "brand_name": "Your Brand",
+    "industry": "e-commerce",
+    "developer_token": "YOUR_DEVELOPER_TOKEN"
+  },
+
+  "merchant_center": {
+    "_comment": "Map country codes to Merchant Center sub-account IDs",
+    "mca_ids": ["123456789"],
+    "merchant_ids": {
+      "US": "111111111",
+      "UK": "222222222",
+      "DE": "333333333"
+    }
+  },
+
+  "domains": {
+    "_comment": "Map country codes to your shop domains",
+    "US": "us.yourshop.com",
+    "UK": "uk.yourshop.com",
+    "DE": "de.yourshop.com"
+  },
+
+  "markets": ["US", "UK", "DE"],
+
+  "xml_feeds": {
+    "_comment": "XML product feed URLs per country (for product catalog sync)",
+    "US": "https://us.yourshop.com/collections/all.atom",
+    "UK": "https://uk.yourshop.com/collections/all.atom",
+    "DE": "https://de.yourshop.com/collections/all.atom"
+  },
+
+  "np_feeds": {
+    "_comment": "NEW_PRODUCTS feed config (optional, for multi-shop setups)",
+    "US": {
+      "google": [
+        {
+          "domain": "us.yourshop.com",
+          "feed_url": "https://cdn.shopify.com/.../Google_NEW_PRODUCTS.xml",
+          "brand_code": "MAIN"
+        }
+      ],
+      "bluewinston": [
+        {
+          "domain": "us.yourshop.com",
+          "feed_url": "https://cdn.shopify.com/.../Bluewinston_NEW_PRODUCTS.xml",
+          "brand_code": "MAIN"
+        }
+      ]
+    }
+  },
+
+  "country_config": {
+    "_comment": "Per-country locale settings for ad copy generation",
+    "US": {
+      "language_code": "en",
+      "currency": "USD",
+      "currency_symbol": "$",
+      "filler_headlines": [
+        "Official {product} Store",
+        "Buy {product} Online",
+        "Free Shipping Available",
+        "100% Satisfaction Guarantee",
+        "Shop Now — Limited Time",
+        "Top Rated Health Products",
+        "Trusted by Thousands",
+        "Premium Quality Ingredients",
+        "Order Today — Fast Delivery",
+        "Exclusive Online Deals"
+      ],
+      "filler_descriptions": [
+        "Shop our premium products with free shipping. Order now!",
+        "Trusted by thousands of customers. 100% satisfaction guarantee.",
+        "Premium quality products at unbeatable prices. Shop today!",
+        "Fast delivery, easy returns. Your shopping journey starts here."
+      ],
+      "snippet_header": "Types",
+      "snippet_values": ["Standard", "Premium", "Deluxe", "Bundle", "Limited Edition"]
+    },
+    "DE": {
+      "language_code": "de",
+      "currency": "EUR",
+      "currency_symbol": "€",
+      "filler_headlines": [
+        "Offizieller {product} Shop",
+        "{product} Online Kaufen",
+        "Kostenloser Versand",
+        "100% Zufriedenheitsgarantie",
+        "Jetzt Bestellen",
+        "Top Bewertungen",
+        "Vertrauen Sie Experten",
+        "Premium Qualität",
+        "Schnelle Lieferung",
+        "Exklusive Angebote"
+      ],
+      "filler_descriptions": [
+        "Premium Produkte mit kostenlosem Versand. Jetzt bestellen!",
+        "Von Tausenden Kunden empfohlen. 100% Zufriedenheitsgarantie.",
+        "Hochwertige Produkte zu unschlagbaren Preisen.",
+        "Schnelle Lieferung, einfache Rücksendung. Jetzt starten!"
+      ],
+      "snippet_header": "Types",
+      "snippet_values": ["Standard", "Premium", "Deluxe", "Bundle", "Limitiert"]
+    }
+  },
+
+  "ai_copy": {
+    "_comment": "AI ad copy generation config. Set your own API key.",
+    "provider": "openai",
+    "openai_api_key": "",
+    "anthropic_api_key": "",
+    "model": "gpt-4o",
+    "fallback_to_templates": true,
+    "custom_endpoint": "",
+    "custom_endpoint_auth": ""
+  },
+
+  "campaign_defaults": {
+    "daily_budget_micros": 5000000,
+    "bidding_strategy": "MAXIMIZE_CONVERSION_VALUE",
+    "target_roas": 1.6,
+    "search_network": false,
+    "display_network": false
+  },
+
+  "endpoints": {
+    "_comment": "External API endpoints (optional). Leave empty to use local processing.",
+    "image_finder": "",
+    "batch_process_images": "",
+    "ad_generator": "",
+    "batch_initialize": "",
+    "market_intel_warmup": ""
+  },
+
+  "product_categories": [
+    "electronics",
+    "fashion",
+    "home_garden",
+    "beauty",
+    "sports",
+    "food",
+    "toys",
+    "pet",
+    "automotive",
+    "other"
+  ],
+
+  "additional_accounts": []
+}
