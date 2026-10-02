@@ -37,6 +37,13 @@ done
 echo "== Google Ads MCP Universal — installer"
 echo "   folder: $ROOT"
 
+case "$(uname -s)" in
+  MINGW*|MSYS*|CYGWIN*)
+    echo "[INFO] Windows detected (Git Bash). This script is for macOS/Linux."
+    echo "       Follow INSTALL.md → 'Windows and Claude Desktop' (PowerShell, .venv\\Scripts\\python.exe)."
+    exit 2 ;;
+esac
+
 # 1. Python 3.12–3.14
 pick_python() {
   for c in ${PYTHON_ARG:-} python3.13 python3.12 python3.14 python3; do

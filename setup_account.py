@@ -23,6 +23,13 @@ import json
 import sys
 from pathlib import Path
 
+# Windows consoles and pipes default to a legacy code page (cp1252); print UTF-8 everywhere.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 PLUGIN_DIR = Path(__file__).resolve().parent
 CONFIG_PATH = PLUGIN_DIR / "config.json"
 EXAMPLE_PATH = PLUGIN_DIR / "config.example.json"

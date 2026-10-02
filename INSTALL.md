@@ -67,6 +67,25 @@ Expected at this point: `[OK] MCP tools/list — 186 tools`. The `[FAIL]` lines 
 
 > Below, `PY` means the virtualenv interpreter: `~/google-mcp-universal/.venv/bin/python` (macOS/Linux) or `$HOME\google-mcp-universal\.venv\Scripts\python.exe` (Windows). Always use it — the system Python has no dependencies.
 
+
+### 2a. Windows and Claude Desktop (Code tab) — notes for the assistant
+
+- **Shell.** In Claude Desktop's *Code* tab (and Claude Code on Windows) the shell tool is Git Bash when Git for Windows is installed, otherwise PowerShell. Run the PowerShell commands of this guide with the PowerShell tool, or from Git Bash as `powershell -NoProfile -Command "…"`. Do not use `install.sh` — it stops on Windows.
+- **Missing Git or Python** (the user may have to accept a Windows UAC prompt):
+
+  ```powershell
+  winget install -e --id Git.Git
+  winget install -e --id Python.Python.3.13
+  ```
+
+  Then open a new shell so PATH refreshes and check `py -3.13 --version`.
+- **Interpreter path:** `%USERPROFILE%\google-mcp-universal\.venv\Scripts\python.exe` (Git Bash: `~/google-mcp-universal/.venv/Scripts/python.exe`). Use it for every script and in every MCP config.
+- **Token step waits for the user:** `generate_refresh_token.py` keeps running until the user finishes signing in in the browser. Run it in the background or with a 10-minute tool timeout, and tell the user to sign in in the browser window that opens.
+- **`claude` CLI for registration:** if `claude --version` fails in the shell, install the CLI (`irm https://claude.ai/install.ps1 | iex` in PowerShell, or `winget install Anthropic.ClaudeCode`), open a new shell and run the `claude mcp add` command from step 6.1. The Desktop app's Code tab uses the same user configuration; start a new session afterwards so the tools load.
+- **Claude Desktop chat config:** open it with Settings → Developer → *Edit Config* instead of guessing the path (Store/MSIX installs keep it in a virtualized folder), add the entry from step 6.2, then quit Claude Desktop from the tray icon and reopen it.
+- **Bypass permissions mode** removes command prompts, not the rules: still ask the user before installing software, before any change in Google Ads, and never print or paste secrets.
+- **Console characters:** the scripts print UTF-8; odd characters in an old console are cosmetic.
+
 ---
 
 ## 3. Google credentials
@@ -112,7 +131,7 @@ open -e .env        # macOS (Linux: nano .env · Windows: notepad .env) → GOOG
 PY generate_refresh_token.py --client-secrets ~/Downloads/client_secret_XXXX.json
 ```
 
-A browser tab opens on the user's computer. **👤 user** signs in with the Google account that has access to Google Ads (and Merchant Center), accepts, and returns. The script writes the client ID, client secret and refresh token into `.env` (chmod 600) and prints only "Saved …".
+The command waits until the sign-in is finished — run it in the background or with a long (10-minute) timeout. A browser tab opens on the user's computer. **👤 user** signs in with the Google account that has access to Google Ads (and Merchant Center), accepts, and returns. The script writes the client ID, client secret and refresh token into `.env` (chmod 600) and prints only "Saved …".
 - No browser (SSH/remote): add `--no-browser` and open the printed URL **on the same computer**.
 - Ads only, no Merchant Center: add `--ads-only`.
 - Run in an interactive terminal, the script also asks (hidden input) for a missing developer token and MCC ID.
@@ -176,7 +195,7 @@ claude mcp add --scope user --transport stdio google-ads -- "$PWD\.venv\Scripts\
 claude mcp list
 ```
 
-(`bash install.sh --register-claude-code` does the same.) Start a new session; `/mcp` shows the server and its tools (named `mcp__google-ads__…`). Remove with `claude mcp remove google-ads -s user`.
+(`bash install.sh --register-claude-code` does the same on macOS/Linux. On Windows without the `claude` command, see step 2a.) Start a new session; `/mcp` shows the server and its tools (named `mcp__google-ads__…`). Remove with `claude mcp remove google-ads -s user`.
 
 ### 6.2 Claude Desktop (chat app)
 

@@ -22,6 +22,13 @@ import threading
 import time
 from pathlib import Path
 
+# Windows consoles and pipes default to a legacy code page (cp1252); print UTF-8 everywhere.
+for _stream in (sys.stdout, sys.stderr):
+    try:
+        _stream.reconfigure(encoding="utf-8", errors="replace")
+    except (AttributeError, ValueError):
+        pass
+
 ROOT = Path(__file__).resolve().parent
 SERVER = ROOT / "skills" / "google-mcp-universal" / "google_ads_mcp.py"
 REQUIRED_ENV = ["GOOGLE_ADS_DEVELOPER_TOKEN", "GOOGLE_ADS_CLIENT_ID", "GOOGLE_ADS_CLIENT_SECRET", "GOOGLE_ADS_REFRESH_TOKEN"]
@@ -102,8 +109,10 @@ class StdioClient:
     def __init__(self, python):
         env = dict(CLIENT_ENV)
         # Claude starts servers from an arbitrary working directory; reproduce that.
-        self.proc = subprocess.Popen([python, str(SERVER)], cwd="/", env=env, stdin=subprocess.PIPE,
-                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1)
+        # MCP stdio is UTF-8 on every platform; decode it as such (Windows defaults to cp1252).
+        self.proc = subprocess.Popen([python, str(SERVER)], cwd=os.path.abspath(os.sep), env=env, stdin=subprocess.PIPE,
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True, bufsize=1,
+                                     encoding="utf-8", errors="replace")
         self.stderr = []
         threading.Thread(target=lambda: self.stderr.extend(self.proc.stderr), daemon=True).start()
         self.next_id = 0

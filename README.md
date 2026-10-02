@@ -4,8 +4,9 @@ A comprehensive, enterprise-grade Google Ads management plugin for Claude Code a
 
 > **Installing?** Follow **[INSTALL.md](INSTALL.md)** — a step-by-step runbook an AI assistant can execute on a clean computer (virtualenv, credentials, `verify_install.py`, Claude Code / Claude Desktop registration, troubleshooting). The sections below are background reference.
 
-## What's new in 1.1.0 / 1.1.1
+## What's new in 1.1.0 – 1.1.2
 
+- **1.1.2** — Windows: install scripts print UTF-8 (no crash on cp1252 consoles), `install.sh` points Windows users to the PowerShell steps, INSTALL.md section 2a for Claude Desktop (Code tab) and bypass-permissions installs.
 - **1.1.1** — `google_ads_get_account_summary`, `google_ads_get_campaign_details` and `google_ads_get_performance_report` queried metrics that the current Google Ads API does not have (`average_position`, `conversion_rate`); they now use `conversions_from_interactions_rate`.
 
 - **Reviewed Search delivery** — `google_ads_create_reviewed_search_campaign`, `google_ads_set_exact_campaign_conversion_goal` and `google_ads_optimize_reviewed_search` create and tune Search campaigns PAUSED, validate-only by default, with naming/destination rules from `config.json` (`search_launch`). New skill **google-ads-search-launch** guides research → owner review → delivery.
@@ -660,4 +661,4 @@ MIT License — free to use, modify, and distribute with attribution.
 
 ---
 
-**Version:** 1.1.1 | **Last Updated:** October 2026 | **Status:** Production Ready
+**Version:** 1.1.2 | **Last Updated:** October 2026 | **Status:** Production Ready

@@ -1,6 +1,6 @@
 {
   "name": "google-mcp-universal",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Universal Google Ads campaign manager — 186 tools, 51 slash commands, 2 skills. Supports any Google Ads account with batch product setup, AI ad copy generation, keyword intelligence, Shopping/PMax optimization, reviewed PAUSED Search delivery, Producthero-style labelizer, Shopping coverage monitoring, offline conversion upload, search-terms analyzers, location/device/time analysis, PageSpeed audits and multi-country campaign management. Author: God_FatherAI — https://github.com/ai-godfather/google-mcp-universal",
   "author": {
     "name": "God_FatherAI"

@@ -35,11 +35,19 @@ SPIS TRESCI
   .env, a zmiany na koncie wykonywac dopiero po wyraznej zgodzie uzytkownika (narzedzia domyslnie
   dzialaja w trybie podgladu: dry_run / validate_only).
 
+  Claude Desktop (zakladka Code) / tryb "bypass permissions":
+  - narzedzie powloki to Git Bash (gdy jest Git for Windows) albo PowerShell — polecenia PowerShell
+    z tej instrukcji uruchamiaj narzedziem PowerShell albo jako: powershell -NoProfile -Command "..."
+  - NIE uzywaj install.sh (jest dla macOS/Linux i na Windows sie zatrzyma)
+  - tryb bypass nie zmienia zasad: przed instalacja programow i zmianami w Google Ads pytaj,
+    nigdy nie wyswietlaj kluczy
+
 ================================================================
 1. WYMAGANIA
 ================================================================
-  - Git:            git --version          (instalacja: https://git-scm.com/download/win)
-  - Python 3.12–3.14: py -0                (instalacja: https://www.python.org — zaznacz "Add to PATH")
+  - Git:            git --version          (brak?  winget install -e --id Git.Git)
+  - Python 3.12–3.14: py -0                (brak?  winget install -e --id Python.Python.3.13)
+    Po instalacji przez winget otworz nowa powloke (odswiezenie PATH). Windows moze zapytac o zgode (UAC).
   - Claude Code (claude --version) i/lub Claude Desktop
   - [UZYTKOWNIK] konto Google z dostepem do konta Google Ads (najlepiej przez konto menedzera MCC),
     opcjonalnie dostep do Merchant Center.
@@ -82,6 +90,7 @@ SPIS TRESCI
 
   3.5 Refresh token (uruchamia asystent, loguje sie [UZYTKOWNIK]):
         .venv\Scripts\python generate_refresh_token.py --client-secrets $HOME\Downloads\client_secret_XXXX.json
+      Polecenie czeka, az skonczysz logowanie — asystent uruchamia je w tle albo z limitem 10 minut.
       Otworzy sie przegladarka — zaloguj sie kontem Google z dostepem do Google Ads (i Merchant Center)
       i zaakceptuj. Skrypt zapisze client ID, secret i refresh token do .env (nie wyswietla ich).
       Opcje: --no-browser (wypisuje link), --ads-only (bez Merchant Center).
@@ -115,9 +124,13 @@ SPIS TRESCI
   6.1 Claude Code (PowerShell, w FOLDER):
     claude mcp add --scope user --transport stdio google-ads -- "$PWD\.venv\Scripts\python.exe" "$PWD\skills\google-mcp-universal\google_ads_mcp.py"
     claude mcp list          ->  google-ads ... ✔ Connected
+      Brak polecenia "claude" w powloce? Zainstaluj CLI:  irm https://claude.ai/install.ps1 | iex
+      (albo: winget install Anthropic.ClaudeCode), otworz nowa powloke i powtorz claude mcp add.
+      Zakladka Code w Claude Desktop korzysta z tej samej konfiguracji — potem nowa sesja.
 
-  6.2 Claude Desktop: Ustawienia -> Developer -> Edit Config
-      (plik %APPDATA%\Claude\claude_desktop_config.json), dodaj i zapisz:
+  6.2 Claude Desktop (czat): Ustawienia -> Developer -> Edit Config — uzyj tego przycisku zamiast
+      zgadywac sciezke (zwykle %APPDATA%\Claude\claude_desktop_config.json, a w wersji ze Sklepu
+      Microsoft plik lezy w folderze wirtualizowanym), dodaj i zapisz:
     {
       "mcpServers": {
         "google-ads": {
