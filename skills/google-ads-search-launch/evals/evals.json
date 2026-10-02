@@ -1,0 +1,63 @@
+{
+  "skill_name": "google-ads-search-launch",
+  "evaluations_are_offline": true,
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "Prepare an operational plan, without any provider calls, for three new products on one shop in one market and one product on a different shop in another market. The first market has an average of 9 per day in the account currency; one of its products needs 4 per day reserved because the owner wants an independent launch test, and the other two can share 5. Margins differ, but reliable per-product conversion values do not exist yet. The owner asks to repeat the workflow of an earlier launch. Decide the campaign and ad group structure, the evidence needed, fresh history dates, the approval scope and how to treat the earlier run's files and approvals. Do not invent CPCs or guarantee results.",
+      "expected_output": "Same-market consolidation is conditional. The reserved product gets its own campaign and budget; the two compatible products can share one campaign with themed ad groups named after their handles; the other shop gets its own campaign. Account and currency come from config.json and a live read. Fresh 16-calendar-month interval ending yesterday in the account time zone plus 90/30-day slices; earlier run files are evidence, not configuration; no reuse of old IDs, rates or approvals; the reviewed tool's constraints (one shop, location, language and starting CPC per campaign, at most 9 groups, budget and CPC caps) are respected; offline-only answer.",
+      "assertions": [
+        "The reserved budget is not modeled as an ad group share inside a pooled campaign budget",
+        "Different margins alone are not treated as an automatic one-product-per-campaign rule",
+        "Earlier run files and approvals are treated as evidence, not as configuration or authorization for this scope",
+        "History uses 16 calendar months ending yesterday in the account time zone, plus 90- and 30-day slices",
+        "Campaign names follow search_launch.campaign_name_pattern and ad group names equal the product handles",
+        "Account and currency come from config.json and a live read, not from an assumed default"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Offline incident exercise for a new Search launch: the store returned an error after a product description update and the saved HTML hash differs, so the product may already have changed. The research cost ledger holds a paid-request intent without a final response. An ads-archive response has zero items, and a Google Trends query for the brand returned no series. The ad proposal says '50% off' and links a three-pack to an on-page #order anchor, but no discount or pack preselection has been verified. Explain the precise recovery sequence and what the report may claim. No live requests, writes, paid calls or approvals are authorized by this exercise.",
+      "expected_output": "Read the exact product ID, body, variants and price before any retry; keep raw hashes and compare meaning only where justified. Preserve the ambiguous paid intent and reconcile it instead of paying again. An empty archive or sparse Trends series does not establish no competition, no demand or no credits. Remove or hold the unsupported promotion, describe the anchor as opening the pack selector only, and keep the copy truthful and in scope.",
+      "assertions": [
+        "Does not blindly retry either the ambiguous write or the paid request",
+        "Separates an empty archive or sparse Trends from zero demand and from missing credits",
+        "Does not present the 50% discount or a preselected pack as verified",
+        "Records exact-ID admin plus storefront evidence boundaries"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Offline editor-review exercise: the Google Ads RSA editor first shows Ad Strength Good with low sitelink coverage. The API shows six ad-group sitelinks and six callouts already linked, while the campaign-level slots in the editor look empty. The page DOM contains 'Turn off ad blockers', but no visible obstruction is confirmed. API Ad Strength is PENDING and one ad is still under policy review. One held product's order form shows labels in another language. Explain how to complete the verification, whether to add duplicate assets, how to handle the 2+ RSA recommendation with only one genuine product URL, and how to report the outcomes. Do not use a browser or change the account.",
+      "expected_output": "Continue in the same browser session, let existing assets settle and reopen the real editor before any edit; check associations instead of duplicating assets; do not act on hidden DOM text. Report editor score, API score, moderation and performance separately; keep the held product paused; evaluate a genuine second landing page instead of inventing a URL; never promise Excellent.",
+      "assertions": [
+        "Waits for existing assets to load and checks associations before creating assets",
+        "Does not equate API PENDING with the editor score or with serving eligibility",
+        "Keeps the held product paused and continues in the same browser session after any user takeover",
+        "Evaluates a real second landing page and does not fabricate duplicate URLs"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "The owner asks to extend the previous review to a larger product list using the same review page. You have fresh data and an alternative four-tab dashboard that someone built. Explain the offline migration: which template to use, the required views, the combination and preview controls, how owner edits and notes are preserved, and how pending research is shown. Do not mutate providers or redesign the page.",
+      "expected_output": "Render assets/review-template.html with a fresh review-data.json; keep the ten views, the overview and all controls; use a new run-specific version namespace; merge the owner's exported edits and notes by product id; replace old dates, budgets, statuses and discount text with current facts; set unattempted research sections to null so they show as pending; check views, persistence and export in a browser and record template provenance.",
+      "assertions": [
+        "Selects assets/review-template.html rather than the four-tab dashboard",
+        "Keeps all ten views, the overview and the combination, preview, edit and export capabilities",
+        "Uses a new version namespace and merges the owner's exported edits and notes by product id",
+        "Shows unattempted research as pending instead of completed or empty"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Offline exercise: config.json sets search_launch.blocked_product_prefixes to ['trial-'], allowed_product_prefixes to ['trial-pack-'] and keeps the default product_path_prefix and campaign_name_pattern. A draft request for shop de.example.com uses the campaign name 'Brand Search DE 2027', an ad group 'trial-mini' with final URL https://de.example.com/products/trial-mini?ref=ads, and a second ad group 'trial-pack-duo' whose keywords use BROAD match. Separately, the owner wants new headlines on an existing reviewed campaign whose ads were edited in the Google Ads UI yesterday. Explain which checks fail, how to fix the payload without weakening the rules, and how to run the optimization safely. Make no provider calls.",
+      "expected_output": "Rename the campaign to the configured pattern, e.g. 'Brand | SEARCH | DE | de.example.com | 2027-03'. Hold trial-mini (blocked prefix) instead of renaming it or loosening the config; trial-pack-duo is allowed. Use the exact URL without the query string and EXACT or PHRASE keywords only, then run preflight and validate_only. For the optimization, re-read the ads, recompute the content SHA-256 after the UI edits, review complete unpinned 15/4 texts, validate first and apply only within approval; on drift re-read rather than force.",
+      "assertions": [
+        "Fixes the campaign name to the configured pattern including ' | de.example.com | '",
+        "Holds the blocked trial-mini product instead of renaming it or loosening the rule, while trial-pack-duo stays allowed",
+        "Removes the query string and uses only EXACT or PHRASE keywords",
+        "Recomputes the content SHA-256 from a fresh read after the UI edits and runs validate_only before applying"
+      ]
+    }
+  ]
+}

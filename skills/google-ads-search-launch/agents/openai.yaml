@@ -1,0 +1,6 @@
+interface:
+  display_name: "Google Ads Search launch"
+  short_description: "Research, landing checks, owner review, PAUSED delivery and editor verification"
+  default_prompt: "Use $google-ads-search-launch to prepare and launch Google Ads Search campaigns for the specified products, with history and competitor research, campaign structure, an owner review page, validate-only then PAUSED delivery and editor verification."
+policy:
+  allow_implicit_invocation: true

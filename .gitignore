@@ -1,0 +1,39 @@
+# Python
+**/__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Environment
+.env
+.venv/
+venv/
+
+# SQLite database (user data, created at runtime)
+batch_state.db
+batch_state.db-journal
+batch_state.db-wal
+
+# User config (contains credentials)
+config.json
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+**/.DS_Store
+Thumbs.db
+
+# Plugin builds
+*.plugin
+
+# Other runtime databases (created next to the modules)
+**/batch_state.db-shm
+**/labelizer_state.db*
+**/shopping_coverage.db*

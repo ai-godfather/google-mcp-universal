@@ -1,0 +1,9 @@
+# Tested with Python 3.12-3.13 (see INSTALL.md). Ranges keep the versions this release was verified with.
+fastmcp>=4.0,<5
+google-ads>=32.0,<33
+google-api-python-client>=2.200,<3
+google-auth>=2.58,<3
+google-auth-oauthlib>=1.4,<2
+pydantic>=2.13,<3
+httpx>=0.28,<1
+python-dotenv>=1.2,<2

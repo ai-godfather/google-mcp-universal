@@ -1,0 +1,247 @@
+{
+  "_comment": "Google Ads Universal Plugin — Configuration File",
+  "_instructions": "Copy this file to config.json and fill in your account details. Or run: python setup_account.py",
+  "account": {
+    "customer_id": "1234567890",
+    "mcc_id": "",
+    "alias": "my-brand",
+    "company_name": "Your Company Name",
+    "brand_name": "Your Brand",
+    "industry": "e-commerce"
+  },
+  "merchant_center": {
+    "_comment": "Map country codes to Merchant Center sub-account IDs",
+    "mca_ids": [
+      "123456789"
+    ],
+    "merchant_ids": {
+      "US": "111111111",
+      "UK": "222222222",
+      "DE": "333333333"
+    }
+  },
+  "domains": {
+    "_comment": "Map country codes to your shop domains",
+    "US": "us.yourshop.com",
+    "UK": "uk.yourshop.com",
+    "DE": "de.yourshop.com"
+  },
+  "markets": [
+    "US",
+    "UK",
+    "DE"
+  ],
+  "xml_feeds": {
+    "_comment": "XML product feed URLs per country (for product catalog sync)",
+    "US": "https://us.yourshop.com/collections/all.atom",
+    "UK": "https://uk.yourshop.com/collections/all.atom",
+    "DE": "https://de.yourshop.com/collections/all.atom"
+  },
+  "np_feeds": {
+    "_comment": "NEW_PRODUCTS feed config (optional, for multi-shop setups)",
+    "US": {
+      "google": [
+        {
+          "domain": "us.yourshop.com",
+          "feed_url": "https://cdn.shopify.com/.../Google_NEW_PRODUCTS.xml",
+          "brand_code": "MAIN"
+        }
+      ],
+      "bluewinston": [
+        {
+          "domain": "us.yourshop.com",
+          "feed_url": "https://cdn.shopify.com/.../Bluewinston_NEW_PRODUCTS.xml",
+          "brand_code": "MAIN"
+        }
+      ]
+    }
+  },
+  "country_config": {
+    "_comment": "Per-country locale settings for ad copy generation",
+    "US": {
+      "language_code": "en",
+      "currency": "USD",
+      "currency_symbol": "$",
+      "filler_headlines": [
+        "Official {product} Store",
+        "Buy {product} Online",
+        "Free Shipping Available",
+        "100% Satisfaction Guarantee",
+        "Shop Now — Limited Time",
+        "Top Rated Health Products",
+        "Trusted by Thousands",
+        "Premium Quality Ingredients",
+        "Order Today — Fast Delivery",
+        "Exclusive Online Deals"
+      ],
+      "filler_descriptions": [
+        "Shop our premium products with free shipping. Order now!",
+        "Trusted by thousands of customers. 100% satisfaction guarantee.",
+        "Premium quality products at unbeatable prices. Shop today!",
+        "Fast delivery, easy returns. Your shopping journey starts here."
+      ],
+      "snippet_header": "Types",
+      "snippet_values": [
+        "Standard",
+        "Premium",
+        "Deluxe",
+        "Bundle",
+        "Limited Edition"
+      ]
+    },
+    "DE": {
+      "language_code": "de",
+      "currency": "EUR",
+      "currency_symbol": "€",
+      "filler_headlines": [
+        "Offizieller {product} Shop",
+        "{product} Online Kaufen",
+        "Kostenloser Versand",
+        "100% Zufriedenheitsgarantie",
+        "Jetzt Bestellen",
+        "Top Bewertungen",
+        "Vertrauen Sie Experten",
+        "Premium Qualität",
+        "Schnelle Lieferung",
+        "Exklusive Angebote"
+      ],
+      "filler_descriptions": [
+        "Premium Produkte mit kostenlosem Versand. Jetzt bestellen!",
+        "Von Tausenden Kunden empfohlen. 100% Zufriedenheitsgarantie.",
+        "Hochwertige Produkte zu unschlagbaren Preisen.",
+        "Schnelle Lieferung, einfache Rücksendung. Jetzt starten!"
+      ],
+      "snippet_header": "Types",
+      "snippet_values": [
+        "Standard",
+        "Premium",
+        "Deluxe",
+        "Bundle",
+        "Limitiert"
+      ]
+    }
+  },
+  "ai_copy": {
+    "_comment": "AI ad copy generation config. Set your own API key.",
+    "provider": "openai",
+    "model": "gpt-4o",
+    "fallback_to_templates": true,
+    "custom_endpoint": "",
+    "custom_endpoint_auth": ""
+  },
+  "campaign_defaults": {
+    "daily_budget_micros": 5000000,
+    "bidding_strategy": "MAXIMIZE_CONVERSION_VALUE",
+    "target_roas": 1.6,
+    "search_network": false,
+    "display_network": false
+  },
+  "endpoints": {
+    "_comment": "External API endpoints (optional). Leave empty to use local processing.",
+    "image_finder": "",
+    "batch_process_images": "",
+    "ad_generator": "",
+    "batch_initialize": "",
+    "market_intel_warmup": "",
+    "labelizer_push": ""
+  },
+  "product_categories": [
+    "electronics",
+    "fashion",
+    "home_garden",
+    "beauty",
+    "sports",
+    "food",
+    "toys",
+    "pet",
+    "automotive",
+    "other"
+  ],
+  "additional_accounts": [],
+  "search_launch": {
+    "_comment": "Rules for the reviewed Search delivery tools (google-ads-search-launch skill)",
+    "campaign_name_pattern": "^[A-Za-z0-9 _-]{1,40} \\| SEARCH \\| [A-Z]{2} \\| [a-z0-9.-]+ \\| \\d{4}-\\d{2}$",
+    "product_path_prefix": "/products/",
+    "blocked_product_prefixes": [],
+    "allowed_product_prefixes": [],
+    "business_name_must_match_domain": false
+  },
+  "shopping_coverage": {
+    "_comment": "Merchant Center stores audited by batch_shopping_coverage_audit; key = country code, optionally with a suffix (e.g. 'PL_B')",
+    "stores": {
+      "US": {
+        "mc_id": "111111111",
+        "type": "main",
+        "regular_label": "US",
+        "np_label": "US_NEW"
+      },
+      "DE": {
+        "mc_id": "333333333",
+        "type": "main",
+        "regular_label": "DE",
+        "np_label": "DE_NEW"
+      }
+    }
+  },
+  "backend_conversions": {
+    "_comment": "Optional: your own order/conversion CSV for ecom_labelizer_run cross-validation. Placeholders: {date_start} {date_end} {country}",
+    "url": "",
+    "columns": {
+      "handle": "productHandle",
+      "value": "ConversionValue",
+      "partner": "partnerIdent",
+      "click_id": "sub1",
+      "order_id": "orderControlTransID"
+    }
+  },
+  "whitelist": {
+    "_comment": "batch_check_obligatory: must-have products (one handle per line, e.g. vitaboost-de) and per-shop blacklist files (<shop domain>.txt)",
+    "obligatory_file": "data/whitelist/obligatory.txt",
+    "blacklist_dir": "data/blacklist/merchant"
+  },
+  "search_terms": {
+    "_comment": "Optional brand names for the offline search-terms analyzers (always classified as BRAND)",
+    "brand_tokens": [
+      "yourbrand"
+    ]
+  },
+  "np_roadmap": {
+    "_comment": "Optional seed rows for batch_np_roadmap_update action=seed",
+    "seed": [
+      {
+        "country_code": "DE",
+        "country_name": "Germany",
+        "tier": "T1",
+        "priority_rank": 1,
+        "merchant_id": "333333333",
+        "eligible_products": 0,
+        "total_products": 0,
+        "conversion_value": 0,
+        "leads": 0,
+        "roas": 0,
+        "xml_products": 0,
+        "mc_status": "ACTIVE"
+      }
+    ],
+    "np_existing": []
+  },
+  "store_feeds": {
+    "_comment": "Optional (PageSpeed tools): store instances and their theme repo names",
+    "MAIN": {
+      "instance": "us.yourshop.com",
+      "repo": "MAIN_THEME",
+      "countries": 3
+    }
+  },
+  "country_domains": {
+    "_comment": "Optional (PageSpeed tools): country -> storefront host/path",
+    "US": "us.yourshop.com",
+    "DE": "de.yourshop.com"
+  },
+  "country_to_repo": {
+    "_comment": "Optional (PageSpeed tools): country -> theme repo name",
+    "US": "MAIN_THEME",
+    "DE": "MAIN_THEME"
+  },
+  "_secrets": "Secrets never go in this file: put GOOGLE_ADS_DEVELOPER_TOKEN, GOOGLE_ADS_CLIENT_ID/SECRET, GOOGLE_ADS_REFRESH_TOKEN, OPENAI_API_KEY in .env (see .env.example and INSTALL.md)."
+}

@@ -1,0 +1,14 @@
+{
+  "name": "ai-godfather",
+  "description": "Google Ads MCP Universal — Claude Code plugin (slash commands + skills) for any Google Ads account",
+  "owner": {
+    "name": "God_FatherAI"
+  },
+  "plugins": [
+    {
+      "name": "google-mcp-universal",
+      "source": "./",
+      "description": "Google Ads campaign manager: 51 slash commands and 2 skills for the google-ads MCP server (186 tools). Install the MCP server separately — see INSTALL.md."
+    }
+  ]
+}

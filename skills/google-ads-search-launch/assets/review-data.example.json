@@ -1,0 +1,215 @@
+{
+  "_comment": "Fictional example of the review-template data contract (references/review-template-contract.md). Not a deployable cohort: replace every value with verified run data.",
+  "version": "example-2027-03-15",
+  "title": "Search launch review",
+  "generatedAt": "2027-03-15T09:00:00Z",
+  "locale": "en-GB",
+  "uiLang": "en",
+  "account": {"customerId": "1234567890", "currency": "EUR"},
+  "statusPill": {"text": "Proposal · 0 Google Ads writes"},
+  "banner": {"kind": "info", "title": "Proposal only.", "text": "Nothing has been saved in Google Ads. Local edits stay in this browser until exported."},
+  "historyPeriod": "2025-11-15 – 2027-03-14 (16 calendar months ending yesterday) plus the last 90 and 30 days",
+  "scopeNote": "One shop domain, country and language per campaign; each product in its own ad group named after its handle.",
+  "conversionGoal": {"name": "Search launch | purchase", "actionIds": ["YOUR_CONVERSION_ACTION_ID"], "status": "proposed"},
+  "googleAdsWrites": 0,
+  "labels": {},
+  "products": [
+    {
+      "id": "DE-sample-bottle",
+      "name": "Sample Bottle",
+      "country": "DE",
+      "countryName": "Germany",
+      "lang": "de",
+      "languageName": "German",
+      "sponsoredLabel": "Gesponsert",
+      "shop": "de.example.com",
+      "handle": "sample-bottle",
+      "productId": "EXACT_EXISTING_ID",
+      "url": "https://de.example.com/products/sample-bottle",
+      "image": "",
+      "imageNote": "Use one real packshot, square crop with padding; Google eligibility is checked after upload.",
+      "price": 24.9,
+      "currency": "EUR",
+      "status": "ready",
+      "reason": "Exact product ID, price, packs and order form verified on the storefront.",
+      "campaign": "Brand | SEARCH | DE | de.example.com | 2027-03",
+      "adGroup": "sample-bottle",
+      "geoId": "2276",
+      "languageId": "1001",
+      "cpc": 0.2,
+      "campaignBudget": 3.0,
+      "businessName": "de.example.com",
+      "path1": {"text": "sample-bottle", "meaning": "sample-bottle"},
+      "path2": {"text": "kaufen", "meaning": "buy"},
+      "headlines": [
+        {"text": "Sample Bottle kaufen", "meaning": "Buy Sample Bottle"},
+        {"text": "Sample Bottle 750 ml", "meaning": "Sample Bottle 750 ml"},
+        {"text": "Sample Bottle für 24,90 €", "meaning": "Sample Bottle for EUR 24.90"},
+        {"text": "Edelstahl-Trinkflasche 750 ml", "meaning": "Stainless steel bottle 750 ml"},
+        {"text": "Im 2er-Set bestellen", "meaning": "Order a set of two"},
+        {"text": "3er-Set für die ganze Familie", "meaning": "Set of three for the whole family"},
+        {"text": "Lieferung in 2–4 Werktagen", "meaning": "Delivery in 2–4 working days"},
+        {"text": "Jetzt online bestellen", "meaning": "Order online now"},
+        {"text": "Sample Bottle Preis", "meaning": "Sample Bottle price"},
+        {"text": "Auslaufsicherer Deckel", "meaning": "Leak-proof lid"},
+        {"text": "Für Sport, Büro und Reisen", "meaning": "For sport, office and travel"},
+        {"text": "Direkt im Shop bestellen", "meaning": "Order directly in the shop"},
+        {"text": "Packungen mit 1, 2 oder 3", "meaning": "Packs of 1, 2 or 3"},
+        {"text": "Sichere Zahlung im Shop", "meaning": "Secure payment in the shop"},
+        {"text": "Sample Bottle im Online-Shop", "meaning": "Sample Bottle in the online shop"}
+      ],
+      "descriptions": [
+        {"text": "Sample Bottle aus Edelstahl, 750 ml, für 24,90 €. Jetzt direkt im Shop bestellen.", "meaning": "Stainless steel, 750 ml, EUR 24.90. Order directly in the shop now."},
+        {"text": "Wählen Sie 1, 2 oder 3 Flaschen im Bestellformular. Lieferung in 2–4 Werktagen.", "meaning": "Choose 1, 2 or 3 bottles in the order form. Delivery in 2–4 working days."},
+        {"text": "Auslaufsicherer Deckel und leichtes Gewicht – ideal für Sport, Büro und Reisen.", "meaning": "Leak-proof lid and light weight, ideal for sport, office and travel."},
+        {"text": "Bestellen Sie online mit sicherer Zahlung. Preise und Lieferzeiten stehen im Shop.", "meaning": "Order online with secure payment. Prices and delivery times are in the shop."}
+      ],
+      "keywords": [
+        {"text": "sample bottle", "match": "EXACT", "source": "research", "volume": 320, "providerCpc": 0.42, "providerCurrency": "USD", "decision": "include", "reason": "Product name; matches the landing page."},
+        {"text": "sample bottle kaufen", "match": "PHRASE", "source": "research", "volume": 90, "providerCpc": 0.55, "providerCurrency": "USD", "decision": "include", "reason": "Native purchase modifier."},
+        {"text": "sample bottle preis", "match": "EXACT", "source": "history", "volume": 50, "providerCpc": 0.38, "providerCurrency": "USD", "decision": "test", "reason": "Price check before purchase; converted in comparable history."},
+        {"text": "edelstahl trinkflasche 750 ml", "match": "PHRASE", "source": "hypothesis", "volume": null, "providerCpc": null, "decision": "test", "reason": "Category hypothesis; review search terms after launch."}
+      ],
+      "negatives": [],
+      "callouts": [
+        {"text": "750 ml Edelstahl", "meaning": "750 ml stainless steel"},
+        {"text": "Lieferung 2–4 Werktage", "meaning": "Delivery 2–4 working days"},
+        {"text": "1, 2 oder 3 Flaschen", "meaning": "1, 2 or 3 bottles"},
+        {"text": "Sichere Zahlung", "meaning": "Secure payment"},
+        {"text": "Auslaufsicherer Deckel", "meaning": "Leak-proof lid"},
+        {"text": "Bestellung online", "meaning": "Order online"}
+      ],
+      "sitelinks": [
+        {"link_text": "Versand & Lieferung", "description1": "Lieferung in 2–4 Werktagen", "description2": "Alle Versandoptionen im Shop", "final_urls": ["https://de.example.com/pages/shipping"]},
+        {"link_text": "Häufige Fragen", "description1": "Antworten zu Produkt und Bestellung", "description2": "Material, Pflege und Versand", "final_urls": ["https://de.example.com/pages/faq"]},
+        {"link_text": "Kontakt", "description1": "Fragen zur Bestellung?", "description2": "Wir helfen per E-Mail weiter", "final_urls": ["https://de.example.com/pages/contact"]},
+        {"link_text": "Alle Produkte", "description1": "Das ganze Sortiment im Shop", "description2": "Flaschen und Zubehör", "final_urls": ["https://de.example.com/collections/all"]}
+      ],
+      "assets": {
+        "businessName": "de.example.com fits 25 characters and matches the destination domain.",
+        "logo": "Reuse the existing approved account logo; verify the association after linking.",
+        "image": "One real packshot; eligibility pending in Google.",
+        "priceAsset": "German is supported; three real pack prices.",
+        "snippet": "Not added: no meaningful structured snippet header for this product."
+      },
+      "prices": {
+        "supported": true,
+        "type": "PRODUCT_TIERS",
+        "languageCode": "de",
+        "currency": "EUR",
+        "offerings": [
+          {"header": "1 Flasche", "description": "750 ml Edelstahl", "price": 24.9, "final_url": "https://de.example.com/products/sample-bottle"},
+          {"header": "2 Flaschen", "description": "Set für zwei", "price": 49.8, "final_url": "https://de.example.com/products/sample-bottle"},
+          {"header": "3 Flaschen", "description": "Set für die Familie", "price": 74.7, "final_url": "https://de.example.com/products/sample-bottle"}
+        ]
+      },
+      "packs": [
+        {"label": "1 Flasche", "price": 24.9},
+        {"label": "2 Flaschen", "price": 49.8},
+        {"label": "3 Flaschen", "price": 74.7}
+      ],
+      "packUrl": "https://de.example.com/products/sample-bottle",
+      "packBehavior": "The product URL opens the page with the quantity selector; it does not preselect 2 or 3 bottles.",
+      "promotion": {"status": "none"},
+      "history": {
+        "period": "2025-11-15 – 2027-03-14",
+        "summary": "No Search history for this exact product in DE; a small category-level sample only.",
+        "metrics": [
+          {"label": "Search clicks (category, DE)", "value": "412"},
+          {"label": "Cost", "value": "131.80 EUR"},
+          {"label": "Weighted CPC", "value": "0.32 EUR"},
+          {"label": "Conversions (selected goal)", "value": "9"}
+        ],
+        "keywords": [{"text": "trinkflasche edelstahl", "match": "PHRASE", "clicks": 210, "cost": 70.1, "conversions": 4}],
+        "searchTerms": [{"text": "trinkflasche edelstahl 750ml", "clicks": 38, "cost": 12.4, "conversions": 1}],
+        "notes": ["Sparse sample; the 90- and 30-day slices had no comparable Search traffic."]
+      },
+      "trends": {
+        "note": "Fictional values for illustration.",
+        "series": [
+          {
+            "query": "sample bottle", "period": "16 months", "dateFrom": "2025-11-15", "dateTo": "2027-03-14", "geo": "DE",
+            "checkUrl": "https://trends.google.com/trends/explore?geo=DE&q=sample%20bottle",
+            "points": [
+              {"from": "2025-11", "value": 38}, {"from": "2026-01", "value": 41}, {"from": "2026-03", "value": 55},
+              {"from": "2026-05", "value": 80}, {"from": "2026-07", "value": 100}, {"from": "2026-09", "value": null},
+              {"from": "2026-11", "value": 47}, {"from": "2027-01", "value": 44}, {"from": "2027-03", "to": "2027-03-14", "value": 52}
+            ],
+            "top": [{"query": "sample bottle 750 ml", "value": 100}],
+            "rising": [],
+            "regions": []
+          }
+        ],
+        "volumes": [{"query": "sample bottle kaufen", "volume": 90, "providerCpc": 0.55, "providerCurrency": "USD"}],
+        "candidates": [
+          {"query": "sample bottle 750 ml", "source": "Trends top query", "decision": "test", "reason": "Same product and size as the landing page."},
+          {"query": "trinkflasche kinder", "source": "Related queries", "decision": "exclude", "reason": "Different audience and product."}
+        ],
+        "errors": []
+      },
+      "research": {
+        "note": "Fictional observations for illustration.",
+        "demand": {
+          "query": "sample bottle", "volume": 320, "providerCpc": 0.42, "providerCurrency": "USD", "source": "Keyword volume provider", "date": "2027-03-14",
+          "monthly": [
+            {"year": 2026, "month": 10, "volume": 260}, {"year": 2026, "month": 11, "volume": 300}, {"year": 2026, "month": 12, "volume": 410},
+            {"year": 2027, "month": 1, "volume": 290}, {"year": 2027, "month": 2, "volume": 330}
+          ]
+        },
+        "serp": [
+          {"query": "sample bottle kaufen", "device": "mobile", "country": "DE", "language": "de", "date": "2027-03-14", "domain": "shop.example.org", "type": "paid", "headline": "Trinkflasche 750 ml | Jetzt bestellen", "url": "https://shop.example.org/bottle"},
+          {"query": "sample bottle kaufen", "device": "mobile", "country": "DE", "language": "de", "date": "2027-03-14", "domain": "reviews.example.org", "type": "organic", "headline": "Trinkflaschen im Vergleich", "url": "https://reviews.example.org/bottles"}
+        ],
+        "competitorPages": [
+          {"url": "https://shop.example.org/bottle", "price": 27.5, "currency": "EUR", "note": "Same volume; delivery cost not compared.", "checkedAt": "2027-03-14"}
+        ],
+        "reads": [{"query": "sample bottle kaufen", "device": "mobile", "location": "Germany (country)", "state": "fetched", "date": "2027-03-14"}],
+        "conclusion": "Lead with the product name, the real price and native purchase words; do not claim the lowest price."
+      },
+      "archive": {
+        "filter": "Last 16 months, Germany, Google Search, text ads.",
+        "queries": [{"domain": "shop.example.org", "country": "DE", "result": "3 text creatives returned", "checkUrl": "https://adstransparency.google.com/", "checkedAt": "2027-03-14"}],
+        "ads": [
+          {"advertiser": "Example Advertiser", "domain": "shop.example.org", "country": "DE", "headline": "Trinkflasche 750 ml | Jetzt bestellen", "meaning": "Bottle 750 ml | Order now", "firstShown": "2026-12-01", "lastShown": "2027-03-10", "url": "https://adstransparency.google.com/", "matchesProduct": false}
+        ],
+        "implications": "Competitors lead with volume and price; keep our verified price and avoid lowest-price claims."
+      }
+    },
+    {
+      "id": "FR-sample-lamp",
+      "name": "Sample Lamp",
+      "country": "FR",
+      "countryName": "France",
+      "lang": "fr",
+      "languageName": "French",
+      "sponsoredLabel": "Sponsorisé",
+      "shop": "fr.example.com",
+      "handle": "sample-lamp",
+      "productId": "EXACT_EXISTING_ID",
+      "url": "https://fr.example.com/products/sample-lamp",
+      "price": 39.0,
+      "currency": "EUR",
+      "status": "held",
+      "reason": "The order form on the product page shows labels in another language; fix the storefront before any write.",
+      "campaign": "Brand | SEARCH | FR | fr.example.com | 2027-03",
+      "adGroup": "sample-lamp",
+      "geoId": "2250",
+      "languageId": "1002",
+      "cpc": 0.2,
+      "campaignBudget": 2.0,
+      "path1": "sample-lamp",
+      "path2": "",
+      "headlines": ["Sample Lamp à 39 €", "Acheter Sample Lamp", "Livraison en 3 à 5 jours"],
+      "descriptions": ["Draft only while the product is held.", "Copy is completed after the storefront fix."],
+      "keywords": [{"text": "sample lamp", "match": "EXACT", "source": "research", "decision": "include", "reason": "Product name."}],
+      "callouts": [],
+      "sitelinks": [],
+      "prices": {"supported": false, "note": "Not planned while the product is held."},
+      "promotion": {"status": "none"},
+      "history": null,
+      "trends": null,
+      "research": null,
+      "archive": null
+    }
+  ]
+}

@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Search launch review</title>
+<style>
+:root{--paper:#f7f9fc;--ink:#25354a;--muted:#657287;--blue:#1a5dd8;--line:#dce3ed;--green:#147d64;--amber:#94600d;--red:#ae3441;--white:#fff;font-family:Aptos,"Segoe UI",system-ui,sans-serif;color:var(--ink);background:var(--paper);font-size:14px}
+*{box-sizing:border-box}body{margin:0;background:var(--paper)}button,input,textarea,select{font:inherit}button,a,input,select,textarea{outline-offset:4px}
+button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid #70a3ff}
+a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+button{background:white;color:var(--ink);border:1px solid var(--line);border-radius:7px;padding:9px 13px}button:hover{border-color:#8ba4c5;background:#f3f7fd}
+.primary{background:var(--blue);border-color:var(--blue);color:white}.primary:hover{background:#104bbc;color:white}.quiet{border:0;background:transparent;padding:7px;color:var(--muted)}
+.mast{min-height:78px;background:white;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 30px;gap:20px;position:sticky;top:0;z-index:20}
+.identity{display:flex;align-items:center;gap:13px}.mark{width:40px;height:40px;background:#e7efff;color:var(--blue);display:grid;place-items:center;border-radius:10px;font-size:22px;font-weight:700}
+.mast strong{font-size:18px;letter-spacing:-.4px}.sub{color:var(--muted);font-size:12px;margin-top:3px}.mast-actions{display:flex;gap:8px;align-items:center}
+.status-pill{padding:6px 10px;background:#edf6f2;border-radius:5px;color:var(--green);font-size:12px;font-weight:600}
+.layout{display:grid;grid-template-columns:245px minmax(0,1fr);max-width:1780px;margin:auto}
+.rail{padding:24px 15px;position:sticky;top:78px;height:calc(100vh - 78px);overflow:auto;border-right:1px solid var(--line);background:#f1f5fa}
+.rail-head{padding:0 12px 17px;display:flex;justify-content:space-between;align-items:center}.rail-head strong{font-size:14px}.count{font-size:12px;color:var(--muted)}
+.product-choice{border:0;background:transparent;width:100%;padding:12px;border-radius:8px;text-align:left;display:grid;grid-template-columns:1fr 20px;gap:4px;margin-bottom:3px}
+.product-choice.selected{background:white;box-shadow:0 1px 3px #25354a16;color:var(--blue)}.product-choice b{display:block;font-size:14px}.product-choice small{display:block;color:var(--muted);margin-top:3px;font-size:12px}
+.dot{width:7px;height:7px;border-radius:50%;background:#93a5bc;justify-self:center;margin-top:8px}.dot.hold{background:#dca546}.dot.ok{background:var(--green)}
+.rail-foot{margin:20px 12px 0;padding-top:18px;border-top:1px solid var(--line);font-size:12px;line-height:1.6;color:var(--muted)}.rail-foot strong{font-size:20px;color:var(--ink);display:block}
+.main{padding:26px 32px 70px;min-width:0}.heading{display:flex;align-items:center;gap:18px;margin-bottom:22px}
+.product-photo{width:76px;height:76px;object-fit:contain;background:white;border:1px solid var(--line);border-radius:9px;padding:4px}
+.heading h1{font-size:29px;letter-spacing:-.8px;margin:0 0 6px;font-weight:650}.heading .trail{font-size:13px;color:var(--muted)}.muted-light{color:#73829a;font-weight:400}
+.heading-end{margin-left:auto;text-align:right;white-space:nowrap}.price-big{font-size:25px;font-weight:650;letter-spacing:-.5px}
+.badges{display:flex;gap:7px;align-items:center;flex-wrap:wrap;margin-top:6px}
+.badge{display:inline-flex;gap:5px;align-items:center;padding:4px 8px;border:1px solid var(--line);border-radius:5px;font-size:11px;color:var(--muted);background:white}
+.badge.hold{color:#895707;border-color:#e9d9b0;background:#fff8e8}.badge.good{color:var(--green);border-color:#b7dace;background:#eff8f4}.badge.blue{color:var(--blue);border-color:#c9daf8;background:#f0f5ff}
+.notice{font-size:13px;line-height:1.65;padding:13px 17px;background:#edf3fd;border-left:3px solid #7299d3;margin:0 0 20px}.notice.hold{background:#fff6e5;border-color:#d3a044}.notice strong{font-weight:650}
+.tabs{display:flex;gap:24px;border-bottom:1px solid var(--line);margin-bottom:25px;overflow:auto;scrollbar-width:thin}
+.tabs button{border:0;border-radius:0;white-space:nowrap;padding:12px 0;color:var(--muted);background:transparent;font-weight:550}.tabs button.active{color:var(--blue);box-shadow:inset 0 -3px var(--blue)}
+.panel h2{font-size:21px;letter-spacing:-.4px;margin:0 0 10px;font-weight:650}.panel h3{font-size:16px;margin:0 0 12px;font-weight:650}.intro{color:var(--muted);max-width:85ch;line-height:1.7;margin:0 0 22px}
+.preview-grid{display:grid;grid-template-columns:minmax(0,1fr) 278px;gap:24px;align-items:start}.preview-grid>div,.stage,.controls{min-width:0}
+.stage{background:white;border:1px solid var(--line);min-height:460px;border-radius:10px;overflow:hidden}
+.stage-top{padding:13px 18px;border-bottom:1px solid #e8edf4;display:flex;justify-content:space-between;align-items:center;gap:10px;font-size:12px;color:var(--muted)}
+.segmented{display:flex;background:#f1f4f8;border-radius:6px;padding:3px;gap:3px}.segmented button{border:0;background:transparent;font-size:12px;padding:5px 9px}.segmented button.on{background:white;box-shadow:0 1px 3px #25354a18;color:var(--blue)}
+.searchbar{display:flex;align-items:center;gap:12px;border:1px solid #dfe3e9;border-radius:24px;margin:24px 24px 23px;padding:12px 17px;font-family:Arial,sans-serif;color:#303134;font-size:15px;box-shadow:0 1px 3px #0000000a}
+.search-icon{width:15px;height:15px;border:2px solid #838b96;border-radius:50%;position:relative;margin-right:6px}.search-icon:after{content:"";position:absolute;width:6px;height:2px;right:-5px;bottom:-3px;background:#838b96;transform:rotate(45deg)}
+.clear-x{margin-left:auto;color:#858c96}
+.serp{padding:0 28px 30px;max-width:780px;margin:auto;font-family:Arial,sans-serif;color:#202124;line-height:1.5}.serp.mobile{max-width:390px;border-left:1px solid #edf0f4;border-right:1px solid #edf0f4;padding:0 18px 28px}
+.sponsor{font-size:12px;font-weight:700;margin:0 0 15px}.url-line{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:13px}
+.favicon{background:#eaf0f5;color:#355873;border-radius:50%;width:28px;height:28px;display:grid;place-items:center;font-size:12px;overflow:hidden}.domain{font-size:14px;word-break:break-word}.path{font-size:12px;color:#5f6368}
+.ad-title{font-size:21px;font-weight:400;line-height:1.35;margin:0 0 8px;color:#1a0dab;text-decoration:none;display:block}.ad-title:hover{text-decoration:underline}
+.ad-content{display:flow-root;font-size:14px;line-height:1.6;color:#4d5156}.ad-content img{float:right;width:108px;height:108px;object-fit:contain;border:1px solid #eef1f5;border-radius:9px;margin:1px 0 9px 17px}
+.serp.mobile .ad-content img{width:86px;height:86px}.ad-content p{margin:0}.ad-callouts{margin-top:9px;color:#4d5156;font-size:13px}
+.ad-links{display:grid;grid-template-columns:1fr 1fr;gap:17px 25px;margin:20px 0 0;padding-left:12px}.ad-links a{font-size:17px;color:#1a0dab}.ad-links small{display:block;font-size:12px;color:#5f6368;line-height:1.4;margin-top:3px}
+.serp.mobile .ad-links{grid-template-columns:1fr;padding:0;gap:12px}
+.ad-prices{min-width:0;max-width:100%;display:flex;gap:8px;margin-top:14px;overflow:auto}.ad-prices>a{padding:10px;border:1px solid #dfe4eb;border-radius:6px;min-width:135px;flex:1;color:#1a0dab}
+.ad-prices b,.ad-prices strong,.ad-prices small{display:block}.ad-prices strong{font-size:13px;font-weight:400}.ad-prices b{color:#30343b;font-size:19px;margin:5px 0}.ad-prices small{color:#666;font-size:11px}.ad-promo{margin-top:16px;font-size:13px}
+.preview-note{padding:13px 18px;background:#fafbfd;color:var(--muted);font-size:11px;line-height:1.55;border-top:1px solid #edf0f5}
+.hold-watermark{color:var(--amber);font-size:12px;font-weight:600;padding:9px 28px;background:#fff9ed;border-bottom:1px solid #f1e3c4}
+.controls{background:#eef3fa;border-radius:9px;padding:18px}.controls label{font-size:12px;display:block;margin-bottom:5px;color:#53657c}
+.controls select{width:100%;border:1px solid #ccd8e7;border-radius:6px;background:white;padding:9px;font-size:12px;margin-bottom:10px}.controls h3{font-size:15px}
+.combos{display:grid;gap:7px;margin-bottom:18px}.combos button{text-align:left;font-size:12px}.combos button b{display:block;margin-bottom:2px}
+.controls .check{display:flex;align-items:center;gap:7px;margin:12px 0}.controls .check input{accent-color:var(--blue)}
+.translation{margin-top:18px;padding:18px 20px;border-left:3px solid #b7c8de;background:#f0f4f9;line-height:1.65;font-size:13px}.translation b{display:block;margin-bottom:7px}.translation p{margin:3px 0}
+.row-actions{display:flex;gap:8px;align-items:center;margin:18px 0;flex-wrap:wrap}.section{margin:27px 0}.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.fieldgrid{display:grid;grid-template-columns:1fr 1fr;gap:15px}.field{display:block;min-width:0}.field>span{font-size:12px;color:var(--muted);display:block;margin-bottom:6px}
+.field input,.field textarea,.notes{width:100%;border:1px solid #cbd6e5;background:white;border-radius:7px;padding:10px 12px;color:var(--ink);font-size:13px;line-height:1.5}
+.field textarea{resize:vertical;min-height:64px}.field.full{grid-column:1/-1}.field small{display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:5px;gap:10px}.field small em{font-style:normal}
+.field.invalid input,.field.invalid textarea{border-color:var(--red);background:#fff6f6}.field.invalid small em{color:var(--red);font-weight:700}.field input[readonly]{background:#f4f7fb}
+.edit-list{display:grid;grid-template-columns:1fr 1fr;gap:18px 22px}.form-block{background:white;border:1px solid var(--line);border-radius:9px;padding:22px;margin-bottom:22px}
+.form-block .topline{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:15px}.form-block .topline h3{margin:0}.foot{color:var(--muted);font-size:12px;line-height:1.7;margin-top:14px}
+.tablewrap{overflow:auto;border:1px solid var(--line);border-radius:8px;background:white}table{width:100%;border-collapse:collapse;text-align:left;font-size:12px}
+th{background:#eef3f8;color:#52637a;font-weight:600;font-size:11px;padding:12px 14px;white-space:nowrap}td{padding:13px 14px;border-top:1px solid #e6ebf2;vertical-align:top;line-height:1.55}td a{overflow-wrap:anywhere}td .badge{font-size:10px;white-space:nowrap}
+.keyword{font-size:14px;font-weight:600;white-space:nowrap}.amount{white-space:nowrap}
+.summary-strip{display:flex;border:1px solid var(--line);background:white;border-radius:8px;margin:18px 0 24px;overflow:hidden}.summary-strip>div{padding:18px 22px;flex:1;border-right:1px solid var(--line)}
+.summary-strip>div:last-child{border:0}.summary-strip strong{display:block;font-size:24px;letter-spacing:-.7px}.summary-strip small{color:var(--muted);font-size:12px}
+.source{font-size:11px;color:var(--muted);line-height:1.55;overflow-wrap:anywhere}.evidence-row{border-bottom:1px solid var(--line);padding:17px 0}.evidence-row:last-child{border:0}
+.evidence-row h4{margin:0 0 5px;font-size:14px;font-weight:650}.evidence-row p{font-size:13px;line-height:1.65;margin:7px 0}
+blockquote{margin:10px 0;padding-left:12px;border-left:2px solid #c1d2ec;color:#52637a;font-size:13px;line-height:1.6}
+.image-proof{width:100%;height:280px;object-fit:contain;background:#fff;border:1px solid var(--line);border-radius:8px}
+.decision-list{display:grid;gap:12px;align-content:start}.decision{background:white;border:1px solid var(--line);padding:17px 18px;border-radius:8px}.decision strong{display:block;font-size:13px;margin-bottom:7px}
+.decision p,.decision li{font-size:12px;color:var(--muted);line-height:1.65;margin:0}
+.graph{display:flex;align-items:end;gap:10px;height:140px;margin:18px 0 32px;padding:8px 6px 0;border-bottom:1px solid var(--line)}
+.bar-col{flex:1;display:flex;align-items:center;justify-content:flex-end;flex-direction:column;height:100%;position:relative;min-width:0}.bar{background:#7aa2e6;width:65%;min-height:2px;border-radius:3px 3px 0 0}
+.bar-col label{position:absolute;bottom:-21px;font-size:9px;color:var(--muted)}.bar-col span{font-size:10px;color:#56667c;margin-bottom:3px}
+.empty{padding:22px;background:white;border:1px dashed #c5d1e0;border-radius:8px;color:var(--muted);font-size:13px;line-height:1.7}
+.notes{min-height:140px;resize:vertical}.review-choice{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0 20px}.review-choice button.chosen{border-color:var(--blue);color:var(--blue);background:#edf4ff}
+.toast{position:fixed;bottom:25px;left:50%;transform:translateX(-50%);background:var(--ink);color:white;padding:12px 20px;border-radius:8px;box-shadow:0 4px 20px #0002;z-index:60;font-size:13px}
+.hidden{display:none!important}.small{font-size:12px;color:var(--muted);line-height:1.65}.alert-count{font-size:12px;color:var(--red)}.campaign-line{font-size:11px;color:var(--muted);overflow-wrap:anywhere;margin:12px 0}
+.print-all{display:none}.updated-note{color:var(--amber);font-size:11px}
+.pack-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.pack-card{border:1px solid #c8d9eb;border-radius:10px;background:white;padding:20px}.pack-card h3{font-size:16px}
+.pack-card strong{font-size:29px;display:block;color:#1659ba;margin:12px 0}.pack-card del{color:#76859a;font-size:15px}
+.trend-line{width:100%;height:160px;background:#f8fafe;border-radius:8px}.trend-line text{font-size:9px;fill:#617086}.chart-key{font-size:11px;color:var(--muted)}
+dialog{width:min(860px,94vw);border:1px solid var(--line);border-radius:12px;padding:24px;color:var(--ink);box-shadow:0 20px 80px #172c4a33}dialog::backdrop{background:#1b2d4266}dialog h2{margin:0 0 12px;font-size:21px}dialog .row-actions{margin-bottom:0}
+.export-json{width:100%;height:42vh;padding:14px;border:1px solid var(--line);border-radius:6px;font:12px/1.55 ui-monospace,monospace;resize:vertical}
+@media(min-width:1550px){.preview-grid{grid-template-columns:minmax(0,1fr) 310px}.main{padding-left:40px;padding-right:40px}.serp{padding-top:9px}}
+@media(max-width:1150px){.layout{grid-template-columns:210px minmax(0,1fr)}.main{padding:22px}.preview-grid{grid-template-columns:1fr}.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px 20px}.controls h3,.controls .combos,.controls .check,.controls p{grid-column:1/-1}.combos{grid-template-columns:repeat(3,1fr)}.two{grid-template-columns:1fr}.heading h1{font-size:25px}.mast{padding:0 20px}}
+@media(max-width:760px){.mast{min-height:70px;padding:12px 15px;position:relative;align-items:flex-start}.mast strong{font-size:15px}.mast .sub{font-size:10px}.mast-actions .status-pill,.mast-actions .print-btn{display:none}.mast-actions button{font-size:11px;padding:8px}.mark{width:33px;height:33px;font-size:18px}
+.layout{display:block}.rail{position:relative;top:0;height:auto;padding:13px 12px;border:0;border-bottom:1px solid var(--line)}.rail-head{padding:0 3px 8px}.product-list{display:flex;overflow:auto;gap:6px;padding:2px 0 6px}.product-choice{width:180px;min-width:180px;padding:10px;margin:0}.product-choice b{font-size:12px}.rail-foot{display:none}
+.main{padding:19px 14px 60px}.heading{gap:11px;align-items:flex-start;margin-bottom:18px}.heading h1{font-size:23px}.heading .trail,.heading-end{font-size:11px}.price-big{font-size:20px}.product-photo{width:57px;height:65px}
+.tabs{gap:19px;margin-bottom:20px}.tabs button{font-size:12px}.notice{font-size:12px;padding:11px 13px}.stage-top{padding:11px}.serp{padding:0 17px 22px}.searchbar{margin:20px 15px}.ad-title{font-size:20px}
+.controls{display:block}.combos{grid-template-columns:1fr 1fr 1fr;gap:5px}.combos button{padding:8px;font-size:10px}.edit-list,.fieldgrid{grid-template-columns:1fr}.form-block{padding:16px}.field.full{grid-column:auto}
+.summary-strip{flex-wrap:wrap}.summary-strip>div{flex-basis:50%;padding:13px 16px}.summary-strip strong{font-size:21px}.graph{gap:3px}.bar-col span,.bar-col label{font-size:8px}.row-actions button{font-size:12px}.source{font-size:10px}.pack-grid{grid-template-columns:1fr}.ad-prices>a{min-width:125px}}
+@media print{body{background:white;font-size:10px}.mast,.rail,.tabs,.row-actions,.controls,.toast{display:none!important}.layout{display:block}.main{padding:0}.panel,.form-block,.section{break-inside:avoid}.preview-grid,.two{display:block}.stage{border:1px solid #aaa}.print-all{display:block}.ad-title,a{color:#222}.field textarea{height:auto}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head><body>
+<header class="mast"><div class="identity"><div class="mark" aria-hidden="true">S</div><div><strong id="app-title">Search launch review</strong><div class="sub" id="app-sub"></div></div></div>
+<div class="mast-actions"><a class="status-pill hidden" id="status-pill" target="_blank" rel="noopener noreferrer"></a><button class="print-btn" data-act="print" id="print-btn">Print view</button><button class="primary" data-act="export" id="export-btn">Export review</button></div></header>
+<div class="layout"><aside class="rail" id="rail"><div class="rail-head"><strong id="rail-title">Products</strong><span class="count" id="rail-count"></span></div><nav id="product-list" class="product-list" aria-label="Products"></nav>
+<div class="rail-foot"><span id="pilot-label"></span><strong id="pilot-total"></strong><span id="pilot-scope"></span><p id="rail-note"></p><button class="quiet" data-act="overview" id="overview-btn"></button></div></aside>
+<main class="main" id="main"><div id="banner"></div><div id="heading" class="heading"></div><div id="notice"></div><nav id="tabs" class="tabs" aria-label="Review sections"></nav><section id="panel" class="panel"></section><div class="print-all" id="print-note"></div></main></div>
+<div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+<dialog id="export-modal" aria-labelledby="export-title"><h2 id="export-title"></h2><p class="intro" id="export-intro"></p><textarea id="export-json" class="export-json" readonly aria-label="Export JSON"></textarea>
+<div class="row-actions"><button class="primary" data-act="download-export" id="dl-btn"></button><button data-act="copy-export" id="copy-btn"></button><button data-act="close-export" id="close-btn"></button></div></dialog>
+<script id="review-data" type="application/json">/*__REVIEW_DATA__*/</script>
+<script>
+'use strict';
+// Generic owner review page for a Search launch. It never calls Google Ads; edits stay in this browser until exported.
+// Data contract: references/review-template-contract.md. Labels can be overridden through DATA.labels (owner's language).
+const DEFAULT_LABELS={
+ appTitle:'Search launch review',appSub:'Proposal editor and owner notes · {date}',print:'Print view',export:'Export review',products:'Products',items:'{n} items',
+ pilotLabel:'Proposed average daily budget',perDay:'/day',scopeLine:'{ready} ready items in {campaigns} campaigns.',outsideLine:' Not in this launch: {list}.',
+ railNote:'This page never changes the Google Ads account. Local edits stay in this browser until you export them.',overview:'Show whole structure',
+ tabs:{preview:'Ad preview',fields:'Google Ads fields',keywords:'Keywords & intent',assets:'Assets & links',packs:'Packs & promotion',trends:'Trends & queries',research:'Competition & demand',archive:'Competitor ads',history:'Account history',review:'My review'},
+ assetLabels:{businessName:'Business name',logo:'Logo',image:'Image',priceAsset:'Price asset',promotion:'Promotion',snippet:'Structured snippet'},
+ noData:'no data',pending:'Pending: this research has not been done yet. That is not evidence of zero demand or no competition.',
+ emptyResult:'Attempted, but the source returned no usable result. This is a documented limitation, not proof of zero demand or no advertisers.',
+ statusReady:'Ready for review',statusHeld:'Held',statusPending:'Pending',plannedPaused:'Planned status: PAUSED',copyCount:'15 headlines · 4 descriptions',productPrice:'product price',outsideTest:'Not in this launch',
+ heldNotice:'Held before any write.',readyNotice:'Exact proposal for review.',sponsored:'Sponsored',comboTitle:'Example RSA combination',headline:'Headline',description:'Description',callout:'Callout',
+ showImage:'Show image',showCallouts:'Show callouts',showLinks:'Show sitelinks, prices and promotion',
+ comboNote:'One RSA with a pool of 15 headlines and 4 descriptions. The buttons change the example only; they do not create ads. Nothing is pinned.',
+ previewTitle:'How the Search result could look',previewIntro:'Change the combination, device and visible assets. Google chooses the layout and may omit elements. The image does not confirm account eligibility.',
+ simulation:'Ad simulation · {country}',desktop:'Desktop',mobile:'Mobile',heldWatermark:'Held version: not for publishing',
+ previewNote:'All links go directly to the shop. This simulates the proposal; it is not a screenshot of a served ad.',meaningTitle:'Meaning of this combination',meaningCallouts:'Callouts:',
+ editedNote:'Local edits exist. Meanings describe the original text and may need updating.',finalUrl:'Final URL',reviewAllFields:'Review all fields',addReview:'Add review and notes',copyPayload:'Copy this ad as JSON',
+ fieldsTitle:'Proposal fields',fieldsIntro:'Text fields can be edited locally. Edits stay in this browser and in the export. Nothing is saved to Google Ads.',
+ campaignBlock:'Campaign and ad group',newCampaign:'New reviewed campaign',account:'Account',typeStatus:'Type and status',campaignName:'Campaign name',adGroup:'Ad group',groupAdStatus:'Ad group and ad status',
+ country:'Country',language:'Language',locationOption:'Location option',locationPresence:'Presence in the location (PRESENCE)',networks:'Networks',networksValue:'Google Search only; search partners and Display off',
+ strategy:'Bid strategy',strategyValue:'Manual CPC, no enhanced CPC',groupCpc:'Ad group default CPC',campaignBudget:'Campaign average daily budget',groupShare:'Planned share of this group',
+ scheduleDevices:'Schedule and devices',scheduleValue:'All days; all devices; no adjustments',conversionGoal:'Campaign conversion goal',tracking:'Tracking',trackingValue:'Keep existing auto-tagging; no new tracking template or suffix',
+ budgetFoot:'A budget is not approval to activate. The CPC is a starting hypothesis from comparable history and current demand, not a forecast.',
+ rsaBlock:'Responsive search ad',limitsOk:'All limits met',limitsBad:'{n} fields empty, duplicated or over the limit',path1:'Display path 1',path2:'Display path 2',
+ pathFoot:'Display paths do not change the destination. Headlines and descriptions are not pinned.',headlinesTitle:'15 headlines, 30 characters each',descriptionsTitle:'4 descriptions, 90 characters each',
+ seePreview:'See updated preview',copyFields:'Copy fields as JSON',resetProduct:'Restore original text',
+ keywordsTitle:'Keywords, match types and reasons',keywordsIntro:'Purchase intent for this exact product. Results from another country or offer are not results for this group. Missing volume is not zero.',
+ kwKeyword:'Keyword',kwSource:'Source',kwVolume:'Volume / month',kwCpc:'Provider CPC',kwDecision:'Decision',kwReason:'Reason',exact:'Exact match',phrase:'Phrase match',
+ negativesTitle:'Negative keywords at launch',negativesNone:'No evidence-backed negatives yet. Real search terms are reviewed after launch.',afterLaunchTitle:'What we evaluate after launch',
+ afterLaunchText:'Search terms, cost, clicks and matured conversions of the selected goal, against comparable history. Conversion value is not profit.',historyBasis:'History basis',
+ assetsTitle:'Assets for this offer',assetsIntro:'Exact texts, plus the elements that are deliberately not added without evidence.',callouts:'Callouts',calloutsBadge:'{n} texts · 25 characters each',
+ sitelinks:'Sitelinks',sitelinksBadge:'{n} sitelinks',linkText:'Link text',desc1:'Description 1',desc2:'Description 2',openDestination:'Open destination',image:'Product image',imageNone:'No image proposed.',
+ decisions:'Asset decisions',alternatives:'Other existing offers of this product',altShop:'Shop / handle',altPrice:'Price',altNote:'Status',
+ packsTitle:'Packs, prices and promotion',packsIntro:'Packs and prices as they exist on the landing page now.',packsNone:'No packs verified on the landing page.',packLinkTitle:'Exact pack destination',
+ priceAssetTitle:'Price asset: exact fields',priceAssetUnsupported:'No price asset planned for this product or language.',priceType:'Price type',priceLevel:'Linked at',priceCurrency:'Currency',
+ offeringHeader:'Header / description',offeringPrice:'Price',offeringMicros:'price_micros',promotionTitle:'Promotion',promotionNone:'No promotion. Ad copy must not imply a discount.',
+ promotionProposed:'Proposal only, not an applied offer. It needs commercial authorization, a verifiable price basis and a live storefront check before any promotion asset or discount claim.',
+ promotionImplemented:'Implemented offer, verified on the storefront.',
+ trendsTitle:'Google Trends and related queries',trendsIntro:'Relative interest (0 to 100) within each request. Separate requests are normalized separately and are not directly comparable.',
+ trendsPoints:'{valid} of {total} points',trendsKey:'Index 0 to 100 within this series. A gap means missing data, not zero.',openTrends:'Open Google Trends',regions:'Highest reported regions:',
+ top:'Top related:',rising:'Rising (raw values)',risingNote:'Large rises from a small base are not a sales forecast or a reason to raise budgets.',volumesTitle:'Volumes of related queries',
+ candidatesTitle:'Queries: what we take and why',query:'Query',
+ researchTitle:'Why this ad and these keywords',researchIntro:'Paid ads, organic results and landing pages are different kinds of evidence.',avgVolume:'average monthly volume of “{q}”',
+ providerCpc:'provider CPC estimate (not your bid)',serpReads:'valid local SERP reads',paidSeen:'paid ads in the sample',demandTitle:'Monthly demand',conclusion:'Conclusion for this offer',
+ competitorPages:'Competitor offers and pages',competitorNone:'No completed competitor landing review for this item.',observedPrice:'Observed price:',priceUnconfirmed:'Price not confirmed.',
+ serpTitle:'Observed search results',paidAd:'Paid ad',organic:'Organic result',serpNote:'One observed combination, not the full asset set. URL opened without ad-click parameters.',
+ readParams:'Read parameters',device:'Device',location:'Location',stateCol:'State',date:'Date',
+ archiveTitle:'Real ads from the Google ads archive',archiveIntro:'Ads Transparency Center records for the checked advertisers, markets and filters.',archiveCoverage:'Coverage of this check',
+ domainMarket:'Domain / market',archiveResult:'Archive result',scopeSource:'Scope and source',openArchive:'Open the archive',reviewedCreatives:'Reviewed creatives',matchesProduct:'Mentions this product',otherProducts:'Other products',
+ firstLast:'First shown {first}, last shown {last}: creative history bounds, not continuous serving.',
+ archiveLimits:'The archive does not reveal purchased keywords, bids, ROAS or the full 15/4 RSA. An empty filtered result does not prove that nobody advertises.',
+ historyTitle:'Account history for this product and market',historyIntro:'Search performance from this account for comparable product and intent. Weighted CPC = total cost / clicks.',
+ historyKeywords:'Purchased keywords',historySearchTerms:'Actual search terms',clicks:'Clicks',cost:'Cost',conversions:'Conversions',match:'Match',
+ reviewTitle:'Your review of this proposal',reviewIntro:'Saved only in this browser. Send the export for further changes. “Accept copy” is not approval to activate and not Google moderation.',
+ unreviewed:'Not reviewed yet',changes:'Changes needed',accepted:'Accept copy',noteLabel:'Notes on the product, copy, price, links or budget',notePlaceholder:'Write notes for this ad…',
+ editsYes:'yes, local edits exist',editsNo:'none',editsLine:'Text edits: {edits}. Fields failing limits: {invalid}.',heldBlocks:' The hold still blocks any write, whatever the copy review says.',
+ downloadReview:'Download review and exact fields',allStatuses:'See the status of all items',beforeSaveTitle:'What must happen before any campaign write',
+ beforeSaveText:'A fresh landing and price check, resolved holds, asset eligibility checks, the exact conversion goal, a validate-only call, PAUSED creation and a read-back. No button on this page calls Google Ads.',
+ overviewTitle:'Whole structure for the selected products',summaryProducts:'product / market items',summaryCampaigns:'campaigns',summaryBudget:'proposed average daily budget',summaryWrites:'Google Ads writes so far',
+ colProduct:'Product and market',colCampaign:'Campaign / group',colUrl:'Final URL and price',colCpc:'CPC / budget',colState:'State',colReview:'Review',heldList:'Not in this launch: {list}',
+ landingFixes:'Landing corrections',backToPreview:'Back to ad preview',exportAll:'Export the whole review',
+ exportTitle:'Your review and exact campaign fields',exportIntro:'All items, texts, links, settings and your notes. Download the JSON or copy it. This is a local export only.',
+ download:'Download JSON file',copyAll:'Copy whole export',close:'Close export',copied:'Copied to clipboard.',downloadHint:'If the download is blocked, use “Copy whole export”.',
+ savedLocal:'Review saved locally.',restored:'Original text restored for this product.',storageUnavailable:'Browser storage is unavailable. Use the JSON export.',
+ printNote:'Local simulation. Google may show a different combination and fewer assets. This is not moderation or serving evidence.',
+ loaderTitle:'Load review data',loaderText:'This page has no embedded review data. Choose a review-data JSON file; see references/review-template-contract.md.',loaderError:'Not valid review data: {error}'
+};
+const DEFAULT_COMBOS=[{label:'Combination 1',hint:'Brand, price, purchase',h:[0,1,2],d:[0,1]},{label:'Combination 2',hint:'Offer, packs, delivery',h:[3,4,5],d:[2,3]},{label:'Combination 3',hint:'Direct call to action',h:[6,7,8],d:[1,2]}];
+const TABS=['preview','fields','keywords','assets','packs','trends','research','archive','history','review'];
+const LIMITS={headlines:30,descriptions:90,callouts:25,path1:15,path2:15};
+let ORIGINAL=null,DATA=null,L=DEFAULT_LABELS,STORAGE='';
+const state={id:null,tab:'preview',device:'desktop',hi:[0,1,2],di:[0,1],showImage:true,showCallouts:true,showLinks:true};
+const $=id=>document.getElementById(id);
+const clone=v=>JSON.parse(JSON.stringify(v));
+const fill=(s,v)=>String(s).replace(/\{(\w+)\}/g,(m,k)=>v[k]!=null?v[k]:m);
+const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const WIDE=/[ᄀ-ᅟ⺀-〾ぁ-㏿㐀-䶿一-鿿ꀀ-꓏가-힣豈-﫿︰-﹏＀-｠￠-￦]/;
+const adLen=t=>Array.from(String(t??'')).reduce((n,c)=>n+(WIDE.test(c)?2:1),0); // conservative; Google Ads validation governs
+const num=v=>v==null||v===''||Number.isNaN(Number(v))?L.noData:new Intl.NumberFormat(DATA.locale||undefined,{maximumFractionDigits:2}).format(Number(v));
+const money=(v,c)=>v==null||v===''?L.noData:num(v)+(c?' '+c:'');
+const acct=v=>money(v,DATA.account&&DATA.account.currency);
+const badge=(t,c='')=>`<span class="badge ${c}">${esc(t)}</span>`;
+const okURL=u=>typeof u==='string'&&u!==''&&!u.startsWith('//')&&(/^https?:\/\//i.test(u)||!/^[a-z][a-z0-9+.-]*:/i.test(u));
+const safeURL=u=>okURL(u)?u:'#';
+const safeSrc=u=>okURL(u)||/^data:image\/(png|jpe?g|gif|webp);base64,/i.test(String(u||''))?u:'';
+const link=(url,label)=>`<a href="${esc(safeURL(url))}" target="_blank" rel="noopener noreferrer">${esc(label||url)}</a>`;
+const hostOf=u=>{try{return new URL(u).hostname}catch(e){return String(u||'')}};
+const prod=()=>DATA.products.find(p=>p.id===state.id)||DATA.products[0];
+const orig=id=>ORIGINAL.products.find(p=>p.id===id);
+const pendingBox=()=>`<div class="empty">${esc(L.pending)}</div>`;
+const emptyBox=note=>`<div class="empty">${esc(L.emptyResult)}${note?'<br>'+esc(note):''}</div>`;
+const asItem=x=>typeof x==='string'?{text:x,meaning:''}:{text:String((x&&x.text)??''),meaning:String((x&&x.meaning)??'')};
+function normalize(d){for(const p of d.products){for(const k of ['headlines','descriptions','callouts'])p[k]=(p[k]||[]).map(asItem);for(const k of ['path1','path2'])p[k]=asItem(p[k]);for(const k of ['keywords','sitelinks','negatives'])p[k]=p[k]||[];p.sitelinks=p.sitelinks.map(s=>Object.assign({},s,{final_url:(s.final_urls&&s.final_urls[0])||s.final_url||''}));p.status=p.status||'pending';p.review=p.review||'unreviewed';p.note=p.note||''}return d}
+function restore(){
+ let saved={};try{saved=JSON.parse(localStorage.getItem(STORAGE)||'{}')}catch(e){}
+ const sp=saved.products||{};
+ for(const p of DATA.products){const s=sp[p.id];if(!s)continue;for(const k of ['headlines','descriptions','callouts','path1','path2'])if(s[k])p[k]=s[k];p.review=s.review||'unreviewed';p.note=s.note||''}
+ // Refresh only unchanged former defaults; every owner edit and note is kept.
+ for(const p of DATA.products){const base=orig(p.id);for(const u of p.defaultCopyUpdates||[]){const list=Array.isArray(p[u.field]);const cur=list?p[u.field][u.index]:p[u.field];const src=list?base[u.field][u.index]:base[u.field];if(cur&&src&&cur.text===u.oldText){if(list)p[u.field][u.index]=clone(src);else p[u.field]=clone(src)}}}
+ // Append newly added default callouts without replacing saved edits.
+ for(const p of DATA.products){const base=orig(p.id);if(p.callouts.length<base.callouts.length)p.callouts.push(...clone(base.callouts.slice(p.callouts.length)))}
+}
+function persist(){const products={};for(const p of DATA.products){products[p.id]={};for(const k of ['headlines','descriptions','callouts','path1','path2','review','note'])products[p.id][k]=p[k]}try{localStorage.setItem(STORAGE,JSON.stringify({version:DATA.version,products,updatedAt:new Date().toISOString()}))}catch(e){toast(L.storageUnavailable)}}
+function toast(t){const el=$('toast');el.textContent=t;el.classList.remove('hidden');clearTimeout(window.toastTimer);window.toastTimer=setTimeout(()=>el.classList.add('hidden'),3500)}
+function invalid(key,text){return adLen(text)>LIMITS[key]||(!String(text).trim()&&key!=='path1'&&key!=='path2')}
+function invalidCount(p){let n=0;for(const k of ['headlines','descriptions','callouts'])n+=p[k].filter(x=>invalid(k,x.text)).length;for(const k of ['headlines','descriptions']){const seen=new Set();for(const x of p[k]){const t=x.text.trim().toLowerCase();if(t&&seen.has(t))n++;seen.add(t)}}n+=['path1','path2'].filter(k=>invalid(k,p[k].text)).length;if(p.path2.text.trim()&&!p.path1.text.trim())n++;if(p.headlines.length!==15)n++;if(p.descriptions.length!==4)n++;return n}
+function limitText(p){const n=invalidCount(p);return n?fill(L.limitsBad,{n}):L.limitsOk}
+function hasEdits(p){const o=orig(p.id);return ['headlines','descriptions','callouts','path1','path2'].some(k=>JSON.stringify(p[k])!==JSON.stringify(o[k]))}
+function goal(p){const g=p.conversionGoal||DATA.conversionGoal;return g?[g.name,(g.actionIds||[]).join(', '),g.status].filter(Boolean).join(' · '):L.noData}
+function statusBadge(p){return p.status==='ready'?badge(L.statusReady,'blue'):p.status==='held'?badge(L.statusHeld,'hold'):badge(L.statusPending,'hold')}
+function decisionBadge(d){const v=String(d||'').toLowerCase();return d?badge(d,v==='include'||v==='test'?'good':v==='exclude'||v==='hold'?'hold':''):''}
+function sourceBadge(k){const s=String(k.source||'').toLowerCase();return k.source?badge(k.source,s.startsWith('history')?'good':s.startsWith('hypothesis')?'hold':'blue'):''}
+function readyBudget(){const b=new Map();for(const x of DATA.products)if(x.status==='ready'&&!b.has(x.campaign))b.set(x.campaign,Number(x.campaignBudget)||0);return b}
+function selectProduct(id){if(state.tab==='overview')state.tab='preview';state.id=id;state.hi=[0,1,2];state.di=[0,1];render();window.scrollTo(0,0)}
+function staticLabels(){
+ $('app-title').textContent=DATA.title||L.appTitle;$('app-sub').textContent=fill(L.appSub,{date:DATA.generatedAt?String(DATA.generatedAt).slice(0,10):''});
+ $('print-btn').textContent=L.print;$('export-btn').textContent=L.export;$('rail-title').textContent=L.products;$('rail-count').textContent=fill(L.items,{n:DATA.products.length});
+ $('pilot-label').textContent=L.pilotLabel;$('rail-note').textContent=L.railNote;$('overview-btn').textContent=L.overview;$('print-note').textContent=L.printNote;
+ $('export-title').textContent=L.exportTitle;$('export-intro').textContent=L.exportIntro;$('dl-btn').textContent=L.download;$('copy-btn').textContent=L.copyAll;$('close-btn').textContent=L.close;
+ const pill=$('status-pill');if(DATA.statusPill&&DATA.statusPill.text){pill.textContent=DATA.statusPill.text;if(DATA.statusPill.url)pill.href=safeURL(DATA.statusPill.url);else pill.removeAttribute('href');pill.classList.remove('hidden')}
+ const b=DATA.banner;$('banner').innerHTML=b&&b.text?`<div class="notice ${b.kind==='hold'?'hold':''}"><strong>${esc(b.title||'')}</strong> ${esc(b.text)}${b.url?' '+link(b.url,b.linkText||b.url):''}</div>`:'';
+}
+function render(){
+ const p=prod();document.title=p.name+' '+p.country+' · '+(DATA.title||L.appTitle);
+ const budgets=readyBudget(),held=DATA.products.filter(x=>x.status!=='ready');
+ $('pilot-total').textContent=acct([...budgets.values()].reduce((a,b)=>a+b,0))+L.perDay;
+ $('pilot-scope').textContent=fill(L.scopeLine,{ready:DATA.products.length-held.length,campaigns:budgets.size})+(held.length?fill(L.outsideLine,{list:held.map(x=>x.name+' '+x.country).join(', ')}):'');
+ $('product-list').innerHTML=DATA.products.map(x=>{const dot=x.status!=='ready'?'hold':x.review==='accepted'?'ok':'';const title=x.status!=='ready'?L.statusHeld:x.review==='accepted'?L.accepted:L.unreviewed;return `<button class="product-choice ${x.id===p.id?'selected':''}" data-product="${esc(x.id)}" aria-pressed="${x.id===p.id}"><div><b>${esc(x.name)}</b><small>${esc(x.countryName||x.country)} · ${esc(money(x.price,x.currency))}</small></div><span class="dot ${dot}" title="${esc(title)}"></span></button>`}).join('');
+ const img=safeSrc(p.image);
+ $('heading').innerHTML=`${img?`<img class="product-photo" src="${esc(img)}" alt="${esc(p.name)}">`:''}<div><h1>${esc(p.name)} <span class="muted-light">/ ${esc(p.country)}</span></h1><div class="trail">${esc(p.shop)} · ${esc(p.languageName||p.lang)}</div><div class="badges">${statusBadge(p)}${badge(L.plannedPaused)}${badge(L.copyCount)}</div></div><div class="heading-end"><div class="price-big">${esc(money(p.price,p.currency))}</div><div class="sub">${esc(L.productPrice)}</div><div style="margin-top:8px">${p.status==='ready'?badge(acct(p.campaignBudget)+L.perDay):badge(L.outsideTest,'hold')}</div></div>`;
+ $('notice').innerHTML=p.status==='ready'?`<div class="notice"><strong>${esc(L.readyNotice)}</strong> ${esc(p.reason||'')}</div>`:`<div class="notice hold"><strong>${esc(L.heldNotice)}</strong> ${esc(p.reason||'')}</div>`;
+ $('tabs').innerHTML=TABS.map(k=>`<button data-tab="${k}" class="${k===state.tab?'active':''}" aria-current="${k===state.tab?'page':'false'}">${esc(L.tabs[k])}</button>`).join('');
+ $('panel').innerHTML=VIEWS[state.tab](p);
+}
+function preview(p){
+ const blank={text:'',meaning:''},hs=state.hi.map(i=>p.headlines[i]||p.headlines[0]||blank),ds=state.di.map(i=>p.descriptions[i]||p.descriptions[0]||blank);
+ const combos=p.combos||DATA.combos||DEFAULT_COMBOS;
+ const sel=(kind,arr,i,v)=>`<div><label for="${kind}${i}">${esc(kind==='h'?L.headline:L.description)} ${i+1}</label><select id="${kind}${i}" data-select="${kind}${i}">${arr.map((x,j)=>`<option value="${j}" ${v===j?'selected':''}>${j+1}. ${esc(x.text)}</option>`).join('')}</select></div>`;
+ const controls=`<aside class="controls"><h3>${esc(L.comboTitle)}</h3><div class="combos">${combos.map((c,i)=>`<button data-combo="${i}"><b>${esc(c.label)}</b>${esc(c.hint||'')}</button>`).join('')}</div>${state.hi.map((v,i)=>sel('h',p.headlines,i,v)).join('')}${state.di.map((v,i)=>sel('d',p.descriptions,i,v)).join('')}${['showImage','showCallouts','showLinks'].map(k=>`<label class="check"><input type="checkbox" data-show="${k}" ${state[k]?'checked':''}> ${esc(L[k])}</label>`).join('')}<p class="small">${esc(L.comboNote)}</p></aside>`;
+ const img=safeSrc(p.image),logo=safeSrc(p.logoUrl),promo=p.promotion||{};
+ const promoLine=promo.status==='implemented'?`<div class="ad-promo">◈ ${link(promo.final_url||p.url,promo.text||'')}</div>`:'';
+ const offers=p.prices&&p.prices.supported?(p.prices.offerings||[]):[];
+ const prices=offers.length?`<div class="ad-prices">${offers.map(z=>`<a href="${esc(safeURL(z.final_url))}" target="_blank" rel="noopener noreferrer"><strong>${esc(z.header)}</strong><b>${esc(money(z.price,z.currency||p.prices.currency||p.currency))}</b><small>${esc(z.description)}</small></a>`).join('')}</div>`:'';
+ const links=state.showLinks?`${promoLine}${prices}<div class="ad-links">${p.sitelinks.map(s=>`<div>${link(s.final_url,s.link_text)}<small>${esc(s.description1)}<br>${esc(s.description2)}</small></div>`).join('')}</div>`:'';
+ const meaning=[...hs,...ds,...p.callouts].some(x=>x.meaning)?`<div class="translation"><b>${esc(L.meaningTitle)}</b><p>${hs.map(h=>esc(h.meaning)).join(' | ')}</p><p>${ds.map(d=>esc(d.meaning)).join(' ')}</p><p class="small">${esc(L.meaningCallouts)} ${p.callouts.map(c=>esc(c.meaning)).join(' · ')}</p>${hasEdits(p)?`<p class="updated-note">${esc(L.editedNote)}</p>`:''}</div>`:'';
+ const favicon=logo?`<img src="${esc(logo)}" alt="" style="width:24px;height:24px">`:esc(String(p.shop||'?')[0].toUpperCase());
+ return `<h2>${esc(L.previewTitle)}</h2><p class="intro">${esc(L.previewIntro)}</p><div class="preview-grid"><div><div class="stage"><div class="stage-top"><span>${esc(fill(L.simulation,{country:p.countryName||p.country}))}</span><div class="segmented"><button data-device="desktop" class="${state.device==='desktop'?'on':''}">${esc(L.desktop)}</button><button data-device="mobile" class="${state.device==='mobile'?'on':''}">${esc(L.mobile)}</button></div></div>${p.status!=='ready'?`<div class="hold-watermark">${esc(L.heldWatermark)}</div>`:''}<div class="searchbar"><span class="search-icon"></span>${esc((p.keywords[0]&&p.keywords[0].text)||p.name)}<span class="clear-x">×</span></div><article lang="${esc(p.lang||'')}" class="serp ${state.device==='mobile'?'mobile':''}"><div class="sponsor">${esc(p.sponsoredLabel||L.sponsored)}</div><div class="url-line"><div class="favicon" aria-hidden="true">${favicon}</div><div><div class="domain">${esc(p.businessName||p.shop)}</div><div class="path">https://${esc(p.shop)} › ${esc(p.path1.text)}${p.path2.text?' › '+esc(p.path2.text):''}</div></div></div><a class="ad-title" href="${esc(safeURL(p.url))}" target="_blank" rel="noopener noreferrer">${hs.map(h=>esc(h.text)).join(' | ')}</a><div class="ad-content">${state.showImage&&img?`<img src="${esc(img)}" alt="${esc(p.name)}">`:''}<p>${ds.map(d=>esc(d.text)).join(' ')}</p></div>${state.showCallouts?`<div class="ad-callouts">${p.callouts.map(c=>esc(c.text)).join(' · ')}</div>`:''}${links}</article><div class="preview-note">${esc(L.previewNote)}</div></div>${meaning}<div class="campaign-line">${esc(L.finalUrl)}: ${link(p.url)}</div></div>${controls}</div><div class="row-actions"><button class="primary" data-tab="fields">${esc(L.reviewAllFields)}</button><button data-tab="review">${esc(L.addReview)}</button><button data-act="copy-payload">${esc(L.copyPayload)}</button></div>`;
+}
+function ro(label,value,full=false){return `<label class="field ${full?'full':''}"><span>${esc(label)}</span><input readonly value="${esc(value)}"></label>`}
+function editField(p,key,i,label){const x=i==null?p[key]:p[key][i],limit=LIMITS[key];return `<label class="field ${invalid(key,x.text)?'invalid':''}"><span>${esc(label)}</span><textarea rows="${key==='descriptions'?3:2}" data-field="${key}" data-index="${i??''}" aria-label="${esc(label)}">${esc(x.text)}</textarea><small><span>${esc(x.meaning||'')}</span><em>${adLen(x.text)}/${limit}</em></small></label>`}
+function fields(p){
+ const a=DATA.account||{},share=p.groupBudgetShare!=null?ro(L.groupShare,acct(p.groupBudgetShare)):'';
+ return `<h2>${esc(L.fieldsTitle)}</h2><p class="intro">${esc(L.fieldsIntro)}</p><div class="form-block"><div class="topline"><h3>${esc(L.campaignBlock)}</h3>${badge(L.newCampaign)}</div><div class="fieldgrid">${ro(L.account,(a.customerId||'')+' / '+(a.currency||''))}${ro(L.typeStatus,'Search / PAUSED')}${ro(L.campaignName,p.campaign,true)}${ro(L.adGroup,p.adGroup)}${ro(L.groupAdStatus,'PAUSED / PAUSED')}${ro(L.country,(p.countryName||p.country)+' / geoTargetConstants/'+(p.geoId||'?'))}${ro(L.language,(p.languageName||p.lang)+' / languageConstants/'+(p.languageId||'?'))}${ro(L.locationOption,L.locationPresence)}${ro(L.networks,L.networksValue)}${ro(L.strategy,L.strategyValue)}${ro(L.groupCpc,acct(p.cpc))}${ro(L.campaignBudget,acct(p.campaignBudget))}${share}${ro(L.scheduleDevices,L.scheduleValue)}${ro(L.conversionGoal,goal(p))}${ro(L.tracking,L.trackingValue)}${ro(L.finalUrl,p.url,true)}</div><p class="foot">${esc(p.bidNote||L.budgetFoot)}</p></div><div class="form-block"><div class="topline"><h3>${esc(L.rsaBlock)}</h3><span id="limit-summary" class="${invalidCount(p)?'alert-count':'small'}">${esc(limitText(p))}</span></div><div class="fieldgrid">${editField(p,'path1',null,L.path1)}${editField(p,'path2',null,L.path2)}</div><p class="foot">${esc(L.pathFoot)}</p><div class="section"><h3>${esc(L.headlinesTitle)}</h3><div class="edit-list">${p.headlines.map((h,i)=>editField(p,'headlines',i,L.headline+' '+(i+1))).join('')}</div></div><div class="section"><h3>${esc(L.descriptionsTitle)}</h3><div class="edit-list">${p.descriptions.map((h,i)=>editField(p,'descriptions',i,L.description+' '+(i+1))).join('')}</div></div></div><div class="row-actions"><button class="primary" data-tab="preview">${esc(L.seePreview)}</button><button data-act="copy-payload">${esc(L.copyFields)}</button><button class="quiet" data-act="reset-product">${esc(L.resetProduct)}</button></div>`;
+}
+function keywords(p){
+ const kw=k=>k.match==='EXACT'?'['+k.text+']':k.match==='PHRASE'?'"'+k.text+'"':k.text;
+ const rows=p.keywords.map(k=>`<tr><td><span class="keyword">${esc(kw(k))}</span><div class="small">${esc(k.match==='EXACT'?L.exact:L.phrase)}</div></td><td>${sourceBadge(k)}</td><td>${esc(num(k.volume))}</td><td>${esc(k.providerCpc!=null?money(k.providerCpc,k.providerCurrency):L.noData)}</td><td>${decisionBadge(k.decision)}</td><td>${esc(k.reason||'')}</td></tr>`).join('');
+ const neg=p.negatives.length?`<ul>${p.negatives.map(n=>`<li>${esc(kw(n))}${n.reason?' · '+esc(n.reason):''}</li>`).join('')}</ul>`:`<p>${esc(L.negativesNone)}</p>`;
+ return `<h2>${esc(L.keywordsTitle)}</h2><p class="intro">${esc(L.keywordsIntro)}</p><div class="tablewrap"><table><thead><tr><th>${esc(L.kwKeyword)}</th><th>${esc(L.kwSource)}</th><th>${esc(L.kwVolume)}</th><th>${esc(L.kwCpc)}</th><th>${esc(L.kwDecision)}</th><th>${esc(L.kwReason)}</th></tr></thead><tbody>${rows}</tbody></table></div><div class="two section"><div class="decision"><strong>${esc(L.negativesTitle)}</strong>${neg}</div><div class="decision"><strong>${esc(L.afterLaunchTitle)}</strong><p>${esc(p.afterLaunch||L.afterLaunchText)}</p></div></div><h3>${esc(L.historyBasis)}</h3><p class="intro">${esc((p.history&&p.history.summary)||DATA.historyPeriod||L.noData)}</p>`;
+}
+function assets(p){
+ const sl=p.sitelinks.map((s,i)=>`<div class="section"><h3>${i+1}. ${esc(s.link_text)}</h3><div class="fieldgrid">${ro(L.linkText+' · '+adLen(s.link_text)+'/25',s.link_text)}${ro(L.desc1+' · '+adLen(s.description1)+'/35',s.description1)}${ro(L.desc2+' · '+adLen(s.description2)+'/35',s.description2)}${ro(L.finalUrl,s.final_url,true)}</div><p class="source">${link(s.final_url,L.openDestination)}${s.evidence?' · '+esc(s.evidence):''}</p></div>`).join('');
+ const img=safeSrc(p.image),labels=L.assetLabels||{};
+ const dec=Object.entries(p.assets||{}).map(([k,v])=>`<div class="decision"><strong>${esc(labels[k]||k)}</strong><p>${esc(v)}</p></div>`).join('');
+ const alt=(p.alternatives||[]).length?`<div class="section"><h3>${esc(L.alternatives)}</h3><div class="tablewrap"><table><thead><tr><th>${esc(L.altShop)}</th><th>${esc(L.altPrice)}</th><th>${esc(L.altNote)}</th></tr></thead><tbody>${p.alternatives.map(a=>`<tr><td>${link(a.url,a.shop)}<br><span class="source">${esc(a.handle||'')}</span></td><td class="amount">${esc(money(a.price,a.currency))}</td><td>${esc(a.note||'')}</td></tr>`).join('')}</tbody></table></div></div>`:'';
+ return `<h2>${esc(L.assetsTitle)}</h2><p class="intro">${esc(L.assetsIntro)}</p><div class="form-block"><div class="topline"><h3>${esc(L.callouts)}</h3>${badge(fill(L.calloutsBadge,{n:p.callouts.length}))}</div><div class="edit-list">${p.callouts.map((c,i)=>editField(p,'callouts',i,L.callout+' '+(i+1))).join('')}</div></div><div class="form-block"><div class="topline"><h3>${esc(L.sitelinks)}</h3>${badge(fill(L.sitelinksBadge,{n:p.sitelinks.length}))}</div>${sl||`<p class="small">${esc(L.noData)}</p>`}</div><div class="two"><div><h3>${esc(L.image)}</h3>${img?`<img class="image-proof" src="${esc(img)}" alt="${esc(p.name)}">`:`<div class="empty">${esc(L.imageNone)}</div>`}<p class="small">${esc(p.imageNote||'')}</p></div><div class="decision-list"><h3>${esc(L.decisions)}</h3>${dec||`<div class="empty">${esc(L.noData)}</div>`}</div></div>${alt}`;
+}
+function packs(p){
+ const list=p.packs||[],pr=p.prices||{},promo=p.promotion||{status:'none'},cur=z=>z.currency||pr.currency||p.currency;
+ const grid=list.length?`<div class="pack-grid">${list.map(z=>`<article class="pack-card"><h3>${esc(z.label)}</h3>${z.comparePrice!=null?`<del>${esc(money(z.comparePrice,cur(z)))}</del>`:''}<strong>${esc(money(z.price,cur(z)))}</strong><p>${esc(z.note||'')}</p>${z.final_url?link(z.final_url,L.openDestination):''}</article>`).join('')}</div>`:`<div class="empty">${esc(L.packsNone)}</div>`;
+ const priceBlock=pr.supported?`<div class="fieldgrid">${ro(L.priceType,pr.type||'PRODUCT_TIERS')}${ro(L.language,pr.languageCode||p.lang)}${ro(L.priceLevel,pr.level||L.adGroup+': '+p.adGroup,true)}${ro(L.priceCurrency,pr.currency||p.currency)}</div><div class="tablewrap section"><table><thead><tr><th>${esc(L.offeringHeader)}</th><th>${esc(L.offeringPrice)}</th><th>${esc(L.offeringMicros)}</th><th>${esc(L.finalUrl)}</th></tr></thead><tbody>${(pr.offerings||[]).map(z=>`<tr><td>${esc(z.header)} <span class="source">${adLen(z.header)}/25</span><br>${esc(z.description)} <span class="source">${adLen(z.description)}/25</span></td><td class="amount">${esc(money(z.price,cur(z)))}</td><td>${z.price!=null?Math.round(Number(z.price)*1e6):''}</td><td>${link(z.final_url)}</td></tr>`).join('')}</tbody></table></div>`:`<div class="notice hold">${esc(pr.note||L.priceAssetUnsupported)}</div>`;
+ const promoBlock=promo.status==='implemented'?`<div class="notice"><strong>${esc(promo.text||'')}</strong><br>${esc(L.promotionImplemented)} ${esc(promo.basis||'')}</div>`:promo.status==='proposed'?`<div class="notice hold"><strong>${esc(promo.text||'')}</strong><br>${esc(L.promotionProposed)} ${esc(promo.basis||'')}</div>`:`<div class="notice">${esc(L.promotionNone)}</div>`;
+ return `<h2>${esc(L.packsTitle)}</h2><p class="intro">${esc(L.packsIntro)}</p><div lang="${esc(p.lang||'')}" class="form-block">${grid}</div><div class="notice"><strong>${esc(L.packLinkTitle)}</strong><br>${link(p.packUrl||p.url)}<br>${esc(p.packBehavior||'')}</div><div class="form-block"><h3>${esc(L.priceAssetTitle)}</h3>${priceBlock}</div><div class="form-block"><h3>${esc(L.promotionTitle)}</h3>${promoBlock}</div>`;
+}
+function trendChart(r){
+ const a=r.points||[];if(!a.some(x=>x.value!=null))return emptyBox();
+ const w=600,h=130,runs=[];let run=[];a.forEach((v,i)=>{if(v.value==null){if(run.length)runs.push(run);run=[]}else run.push([25+i*(w-40)/Math.max(1,a.length-1),h-10-Number(v.value)*(h-25)/100,v])});if(run.length)runs.push(run);
+ const last=a[a.length-1]||{};
+ return `<svg class="trend-line" viewBox="0 0 600 155" role="img" aria-label="${esc(L.trendsKey)}"><line x1="25" x2="590" y1="120" y2="120" stroke="#ccd6e5"/><text x="3" y="18">100</text><text x="10" y="121">0</text>${runs.map(arr=>`<polyline fill="none" stroke="#2865c7" stroke-width="2" points="${arr.map(x=>x[0].toFixed(1)+','+x[1].toFixed(1)).join(' ')}"/>${arr.map(x=>`<circle cx="${x[0].toFixed(1)}" cy="${x[1].toFixed(1)}" r="3" fill="#2865c7"><title>${esc(x[2].from)}: ${esc(x[2].value)}</title></circle>`).join('')}`).join('')}<text x="25" y="146">${esc(a[0]&&a[0].from)}</text><text x="490" y="146">${esc(last.to||last.from)}</text></svg>`;
+}
+function trends(p){
+ const t=p.trends;if(t==null)return `<h2>${esc(L.trendsTitle)}</h2>${pendingBox()}`;
+ const series=t.series||[];
+ const charts=series.length?series.map(r=>{const pts=r.points||[];return `<div class="form-block"><div class="topline"><h3>${esc(r.query)} · ${esc(r.period||'')}</h3>${badge(fill(L.trendsPoints,{valid:pts.filter(x=>x.value!=null).length,total:pts.length}))}</div>${trendChart(r)}<p class="chart-key">${esc(L.trendsKey)}</p><p class="source">${esc(r.dateFrom||'')} – ${esc(r.dateTo||'')} · ${esc(r.geo||p.country)}${r.checkUrl?' · '+link(r.checkUrl,L.openTrends):''}</p>${(r.regions||[]).length?`<p class="small">${esc(L.regions)} ${r.regions.slice(0,4).map(x=>esc(x.name)+' '+esc(x.value)).join(' · ')}</p>`:''}${(r.top||[]).length?`<p class="small">${esc(L.top)} ${r.top.map(x=>esc(x.query)+' ('+esc(x.value)+')').join(' · ')}</p>`:''}${(r.rising||[]).length?`<details><summary>${esc(L.rising)}</summary><p class="small">${r.rising.map(x=>esc(x.query)+': '+esc(x.value)).join(' · ')}</p><p class="small">${esc(L.risingNote)}</p></details>`:''}</div>`}).join(''):emptyBox(t.note);
+ const vol=(t.volumes||[]).length?`<h3>${esc(L.volumesTitle)}</h3><div class="tablewrap section"><table><thead><tr><th>${esc(L.query)}</th><th>${esc(L.kwVolume)}</th><th>${esc(L.kwCpc)}</th></tr></thead><tbody>${t.volumes.map(v=>`<tr><td>${esc(v.query)}</td><td>${esc(num(v.volume))}</td><td>${esc(v.providerCpc!=null?money(v.providerCpc,v.providerCurrency):L.noData)}</td></tr>`).join('')}</tbody></table></div>`:'';
+ const cand=(t.candidates||[]).length?`<h3>${esc(L.candidatesTitle)}</h3><div class="tablewrap"><table><thead><tr><th>${esc(L.query)}</th><th>${esc(L.kwSource)}</th><th>${esc(L.kwDecision)}</th><th>${esc(L.kwReason)}</th></tr></thead><tbody>${t.candidates.map(k=>`<tr><td>${esc(k.query)}</td><td>${esc(k.source||'')}</td><td>${decisionBadge(k.decision)}</td><td>${esc(k.reason||'')}</td></tr>`).join('')}</tbody></table></div>`:'';
+ const errs=(t.errors||[]).length?`<div class="notice hold section">${t.errors.map(e=>esc(e)).join('<br>')}</div>`:'';
+ return `<h2>${esc(L.trendsTitle)}</h2><p class="intro">${esc(L.trendsIntro)}${series.length&&t.note?' '+esc(t.note):''}</p>${charts}${vol}${cand}${errs}`;
+}
+function bars(d){const a=(d&&d.monthly)||[];if(!a.length)return `<div class="empty">${esc(L.noData)}</div>`;const max=Math.max(1,...a.map(x=>Number(x.volume)||0));return `<div class="graph">${a.map(x=>`<div class="bar-col" title="${esc(x.year+'-'+x.month)}: ${esc(x.volume)}"><span>${esc(num(x.volume))}</span><div class="bar" style="height:${Math.max(1,(Number(x.volume)||0)/max*104)}px"></div><label>${esc(String(x.month).padStart(2,'0')+'/'+String(x.year).slice(2))}</label></div>`).join('')}</div>`}
+function research(p){
+ const r=p.research;if(r==null)return `<h2>${esc(L.researchTitle)}</h2>${pendingBox()}`;
+ const serp=r.serp||[],paid=serp.filter(x=>x.type==='paid'),d=r.demand||{},reads=r.reads||[];
+ const pages=(r.competitorPages||[]).length?r.competitorPages.map(c=>`<article class="evidence-row"><h4>${link(c.url,hostOf(c.url))}</h4><p>${c.price!=null?`${esc(L.observedPrice)} <strong>${esc(money(c.price,c.currency))}</strong>. `:esc(L.priceUnconfirmed)+' '}${esc(c.note||'')}</p><p class="source">${esc(c.checkedAt||'')}</p></article>`).join(''):`<div class="empty">${esc(L.competitorNone)}</div>`;
+ const obs=serp.length?serp.slice(0,12).map(c=>`<div class="evidence-row"><h4>${link(c.url,c.domain||hostOf(c.url))} ${badge(c.type==='paid'?L.paidAd:L.organic,c.type==='paid'?'blue':'')}</h4><blockquote>${esc(c.headline||'')}</blockquote><div class="source">${esc(c.query||'')} · ${esc(c.country||p.country)} / ${esc(c.language||p.lang)} / ${esc(c.device||'')} · ${esc(c.date||'')}<br>${esc(L.serpNote)}</div></div>`).join(''):emptyBox();
+ const params=reads.length?`<div class="section"><h3>${esc(L.readParams)}</h3><div class="tablewrap"><table><thead><tr><th>${esc(L.query)}</th><th>${esc(L.device)}</th><th>${esc(L.location)}</th><th>${esc(L.stateCol)}</th><th>${esc(L.date)}</th></tr></thead><tbody>${reads.map(x=>`<tr><td>${esc(x.query)}</td><td>${esc(x.device||'—')}</td><td>${esc(x.location||'—')}</td><td>${esc(x.state||'—')}</td><td>${esc(x.date||'—')}</td></tr>`).join('')}</tbody></table></div></div>`:'';
+ return `<h2>${esc(L.researchTitle)}</h2><p class="intro">${esc(L.researchIntro)}${r.note?' '+esc(r.note):''}</p><div class="summary-strip"><div><strong>${esc(num(d.volume))}</strong><small>${esc(fill(L.avgVolume,{q:d.query||p.name}))}</small></div><div><strong>${esc(d.providerCpc!=null?money(d.providerCpc,d.providerCurrency):L.noData)}</strong><small>${esc(L.providerCpc)}</small></div><div><strong>${reads.filter(x=>x.valid!==false).length}</strong><small>${esc(L.serpReads)}</small></div><div><strong>${paid.length}</strong><small>${esc(L.paidSeen)}</small></div></div><div class="two"><div class="form-block"><h3>${esc(L.demandTitle)}</h3>${bars(d)}<p class="source">${esc(d.source||'')} ${esc(d.date||'')}</p></div><div class="form-block"><h3>${esc(L.conclusion)}</h3><p class="intro">${esc(r.conclusion||p.reason||'')}</p></div></div><h3>${esc(L.competitorPages)}</h3>${pages}<div class="section"><h3>${esc(L.serpTitle)}</h3>${obs}</div>${params}`;
+}
+function archive(p){
+ const a=p.archive;if(a==null)return `<h2>${esc(L.archiveTitle)}</h2>${pendingBox()}`;
+ const qs=a.queries||[],ads=a.ads||[];
+ const cov=qs.length?`<div class="tablewrap"><table><thead><tr><th>${esc(L.domainMarket)}</th><th>${esc(L.archiveResult)}</th><th>${esc(L.scopeSource)}</th></tr></thead><tbody>${qs.map(q=>`<tr><td>${esc(q.domain)} / ${esc(q.country||p.country)}</td><td>${esc(q.result||'')}</td><td>${q.checkUrl?link(q.checkUrl,L.openArchive):''}<br><span class="small">${esc(q.checkedAt||'')}</span></td></tr>`).join('')}</tbody></table></div>`:emptyBox(a.note);
+ const creatives=ads.map(c=>`<article class="form-block"><div class="topline"><h3>${esc(c.advertiser||c.domain)} · ${esc(c.country||'')}</h3>${badge(c.matchesProduct?L.matchesProduct:L.otherProducts,c.matchesProduct?'good':'')}</div><blockquote>${esc(c.headline||'')}</blockquote><p>${esc(c.meaning||'')}</p><p class="source">${esc(c.domain||'')} · ${esc(fill(L.firstLast,{first:c.firstShown||'?',last:c.lastShown||'?'}))} ${c.url?link(c.url,L.openArchive):''}</p></article>`).join('');
+ return `<h2>${esc(L.archiveTitle)}</h2><p class="intro">${esc(L.archiveIntro)}${a.filter?' '+esc(a.filter):''}</p><h3>${esc(L.archiveCoverage)}</h3>${cov}${creatives?`<div class="section"><h3>${esc(L.reviewedCreatives)}</h3>${creatives}</div>`:''}${a.implications?`<div class="decision section"><strong>${esc(L.conclusion)}</strong><p>${esc(a.implications)}</p></div>`:''}<div class="notice section">${esc(L.archiveLimits)}</div>`;
+}
+function historyView(p){
+ const h=p.history;if(h==null)return `<h2>${esc(L.historyTitle)}</h2>${pendingBox()}`;
+ const metrics=(h.metrics||[]).length?`<div class="summary-strip">${h.metrics.map(m=>`<div><strong>${esc(m.value)}</strong><small>${esc(m.label)}</small></div>`).join('')}</div>`:emptyBox(h.note);
+ const table=(title,rows,first,withMatch)=>(rows||[]).length?`<h3>${esc(title)}</h3><div class="tablewrap section"><table><thead><tr><th>${esc(first)}</th>${withMatch?`<th>${esc(L.match)}</th>`:''}<th>${esc(L.clicks)}</th><th>${esc(L.cost)}</th><th>${esc(L.conversions)}</th></tr></thead><tbody>${rows.map(r=>`<tr><td>${esc(r.text)}</td>${withMatch?`<td>${esc(r.match||'')}</td>`:''}<td>${esc(num(r.clicks))}</td><td class="amount">${esc(r.cost!=null?acct(r.cost):L.noData)}</td><td>${esc(num(r.conversions))}</td></tr>`).join('')}</tbody></table></div>`:'';
+ return `<h2>${esc(L.historyTitle)}</h2><p class="intro">${esc(L.historyIntro)} ${esc(h.period||DATA.historyPeriod||'')}</p>${metrics}${table(L.historyKeywords,h.keywords,L.kwKeyword,true)}${table(L.historySearchTerms,h.searchTerms,L.query,false)}${(h.notes||[]).length?`<div class="notice">${h.notes.map(n=>esc(n)).join('<br>')}</div>`:''}`;
+}
+function review(p){return `<h2>${esc(L.reviewTitle)}</h2><p class="intro">${esc(L.reviewIntro)}</p><div class="form-block"><h3>${esc(p.name)} / ${esc(p.country)} · ${esc(money(p.price,p.currency))}</h3><div class="review-choice">${['unreviewed','changes','accepted'].map(v=>`<button data-review="${v}" class="${p.review===v?'chosen':''}">${esc(L[v])}</button>`).join('')}</div><label for="owner-note" class="small">${esc(L.noteLabel)}</label><textarea id="owner-note" class="notes" placeholder="${esc(L.notePlaceholder)}">${esc(p.note||'')}</textarea><p class="foot">${esc(fill(L.editsLine,{edits:hasEdits(p)?L.editsYes:L.editsNo,invalid:invalidCount(p)}))}${p.status!=='ready'?esc(L.heldBlocks):''}</p><div class="row-actions"><button class="primary" data-act="export">${esc(L.downloadReview)}</button><button data-tab="overview">${esc(L.allStatuses)}</button></div></div><div class="decision"><strong>${esc(L.beforeSaveTitle)}</strong><p>${esc(L.beforeSaveText)}</p></div>`}
+function overview(){
+ const budgets=readyBudget(),held=DATA.products.filter(x=>x.status!=='ready'),fixes=DATA.products.filter(x=>x.landingCorrection);
+ const rows=DATA.products.map(p=>`<tr><td><button class="quiet" data-product="${esc(p.id)}"><strong>${esc(p.name)}</strong><br>${esc(p.countryName||p.country)}</button></td><td>${esc(p.campaign)}<div class="source">${esc(L.adGroup)}: ${esc(p.adGroup)}<br>${esc(L.language)}: ${esc(p.languageName||p.lang)} (${esc(p.languageId||'?')})</div></td><td>${link(p.url)}<br><strong>${esc(money(p.price,p.currency))}</strong></td><td class="amount">${esc(acct(p.cpc))}<br>${esc(acct(p.campaignBudget)+L.perDay)}</td><td>${statusBadge(p)}</td><td>${badge(L[p.review]||p.review,p.review==='accepted'?'good':'')}</td></tr>`).join('');
+ return `<h2>${esc(L.overviewTitle)}</h2><p class="intro">${esc(DATA.scopeNote||'')}</p><div class="summary-strip"><div><strong>${DATA.products.length}</strong><small>${esc(L.summaryProducts)}</small></div><div><strong>${new Set(DATA.products.map(x=>x.campaign)).size}</strong><small>${esc(L.summaryCampaigns)}</small></div><div><strong>${esc(acct([...budgets.values()].reduce((a,b)=>a+b,0)))}</strong><small>${esc(L.summaryBudget)}</small></div><div><strong>${esc(DATA.googleAdsWrites??0)}</strong><small>${esc(L.summaryWrites)}</small></div></div><div class="tablewrap"><table><thead><tr><th>${esc(L.colProduct)}</th><th>${esc(L.colCampaign)}</th><th>${esc(L.colUrl)}</th><th>${esc(L.colCpc)}</th><th>${esc(L.colState)}</th><th>${esc(L.colReview)}</th></tr></thead><tbody>${rows}</tbody></table></div>${held.length?`<div class="notice hold section"><strong>${esc(fill(L.heldList,{list:held.map(x=>x.name+' '+x.country).join(', ')}))}</strong><br>${held.map(x=>esc(x.name+' '+x.country+': '+(x.reason||''))).join('<br>')}</div>`:''}${fixes.length?`<div class="notice section"><strong>${esc(L.landingFixes)}</strong><br>${fixes.map(x=>link(x.url,x.name+' / '+x.country)+' · '+esc(x.landingCorrection)).join('<br>')}</div>`:''}<div class="row-actions"><button class="primary" data-act="export">${esc(L.exportAll)}</button><button data-tab="preview">${esc(L.backToPreview)}</button></div>`;
+}
+const VIEWS={preview,fields,keywords,assets,packs,trends,research,archive,history:historyView,review,overview};
+function payload(p){
+ const pr=p.prices||{};
+ return {id:p.id,product:p.name,country:p.country,shop:p.shop,handle:p.handle,product_id:p.productId,status:p.status,hold_reason:p.status==='ready'?null:(p.reason||''),
+  campaign_name:p.campaign,ad_group_name:p.adGroup,campaign_status:'PAUSED',ad_group_status:'PAUSED',ad_status:'PAUSED',language:p.lang,language_id:p.languageId,geo_id:p.geoId,location_type:'PRESENCE',
+  networks:{google_search:true,search_partners:false,display:false},bidding:'MANUAL_CPC',cpc:p.cpc,campaign_daily_budget:p.campaignBudget,account_currency:DATA.account&&DATA.account.currency,
+  group:{name:p.adGroup,final_url:p.url,path1:p.path1.text,path2:p.path2.text,headlines:p.headlines.map(x=>x.text),descriptions:p.descriptions.map(x=>x.text),keywords:p.keywords.map(k=>({text:k.text,match:k.match}))},
+  callouts:p.callouts.map(x=>x.text),sitelinks:p.sitelinks.map(s=>({link_text:s.link_text,description1:s.description1,description2:s.description2,final_urls:[s.final_url]})),
+  price_asset:pr.supported?{language_code:pr.languageCode||p.lang,price_type:pr.type||'PRODUCT_TIERS',price_offerings:(pr.offerings||[]).map(z=>({header:z.header,description:z.description,price_micros:Math.round(Number(z.price)*1e6),currency_code:z.currency||pr.currency||p.currency,final_url:z.final_url}))}:null,
+  promotion:p.promotion||{status:'none'},negative_keywords:p.negatives,conversion_goal:p.conversionGoal||DATA.conversionGoal||null,business_name:p.businessName||null,
+  local_owner_review:p.review,local_owner_note:p.note||'',local_text_edits:hasEdits(p),invalid_fields:invalidCount(p),activation_authorized:false};
+}
+function exportAll(){const a=DATA.account||{};const out={artifact_version:DATA.version,exported_at:new Date().toISOString(),customer_id:a.customerId,currency:a.currency,google_ads_mutations_by_this_page:0,activation_authorized:false,scope:DATA.scopeNote||'',products:DATA.products.map(payload)};$('export-json').value=JSON.stringify(out,null,2);$('export-modal').showModal()}
+function downloadExport(){const blob=new Blob([$('export-json').value],{type:'application/json'});const u=URL.createObjectURL(blob);const a=document.createElement('a');a.href=u;a.download='search-launch-review-'+String(DATA.version||'export').replace(/[^A-Za-z0-9._-]+/g,'-')+'-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1000);toast(L.downloadHint)}
+async function copyText(t){try{await navigator.clipboard.writeText(t);toast(L.copied)}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand('copy');ta.remove();toast(L.copied)}}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b||!DATA)return;
+ if(b.dataset.product){selectProduct(b.dataset.product);return}
+ if(b.dataset.tab){state.tab=b.dataset.tab;render();return}
+ if(b.dataset.device){state.device=b.dataset.device;render();return}
+ if(b.dataset.combo!=null){const p=prod(),c=(p.combos||DATA.combos||DEFAULT_COMBOS)[Number(b.dataset.combo)]||{h:[],d:[]};state.hi=[0,1,2].map(i=>Math.min((c.h||[])[i]??i,Math.max(0,p.headlines.length-1)));state.di=[0,1].map(i=>Math.min((c.d||[])[i]??i,Math.max(0,p.descriptions.length-1)));render();return}
+ if(b.dataset.review){prod().review=b.dataset.review;persist();render();toast(L.savedLocal);return}
+ switch(b.dataset.act){
+  case 'print':window.print();break;case 'export':exportAll();break;case 'download-export':downloadExport();break;
+  case 'copy-export':copyText($('export-json').value);break;case 'close-export':$('export-modal').close();break;
+  case 'copy-payload':copyText(JSON.stringify(payload(prod()),null,2));break;case 'overview':state.tab='overview';render();break;
+  case 'reset-product':{const p=prod(),o=orig(p.id);for(const k of ['headlines','descriptions','callouts','path1','path2'])p[k]=clone(o[k]);persist();render();toast(L.restored);break}
+ }
+});
+document.addEventListener('change',e=>{const el=e.target;if(!DATA)return;if(el.dataset.select){const t=el.dataset.select;if(t[0]==='h')state.hi[Number(t[1])]=Number(el.value);else state.di[Number(t[1])]=Number(el.value);render()}if(el.dataset.show){state[el.dataset.show]=el.checked;render()}});
+document.addEventListener('input',e=>{
+ const el=e.target;if(!DATA)return;
+ if(el.id==='owner-note'){prod().note=el.value;persist();return}
+ if(!el.dataset.field)return;
+ const p=prod(),key=el.dataset.field,i=el.dataset.index,x=i===''?p[key]:p[key][Number(i)];x.text=el.value;
+ const field=el.closest('.field');field.classList.toggle('invalid',invalid(key,el.value));field.querySelector('em').textContent=adLen(el.value)+'/'+LIMITS[key];
+ const summary=$('limit-summary');if(summary){summary.textContent=limitText(p);summary.className=invalidCount(p)?'alert-count':'small'}
+ persist();
+});
+const MAIN_HTML=$('main').innerHTML;
+function boot(data){
+ if(!data||!Array.isArray(data.products)||!data.products.length)throw new Error('a nonempty products array is required');
+ ORIGINAL=normalize(clone(data));DATA=clone(ORIGINAL);
+ const custom=DATA.labels||{};L=Object.assign({},DEFAULT_LABELS,custom,{tabs:Object.assign({},DEFAULT_LABELS.tabs,custom.tabs||{}),assetLabels:Object.assign({},DEFAULT_LABELS.assetLabels,custom.assetLabels||{})});
+ document.documentElement.lang=DATA.uiLang||'en';STORAGE='search-launch-review-'+(DATA.version||'unversioned');
+ $('main').innerHTML=MAIN_HTML;$('rail').classList.remove('hidden');
+ restore();state.id=DATA.products[0].id;staticLabels();render();
+}
+function showLoader(message){
+ $('rail').classList.add('hidden');
+ $('main').innerHTML=`<div class="form-block"><h2>${esc(DEFAULT_LABELS.loaderTitle)}</h2><p class="intro">${esc(DEFAULT_LABELS.loaderText)}</p>${message?`<div class="notice hold">${esc(message)}</div>`:''}<input type="file" id="data-file" accept="application/json,.json"></div>`;
+ $('data-file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;try{boot(JSON.parse(await f.text()))}catch(err){DATA=null;showLoader(fill(DEFAULT_LABELS.loaderError,{error:err.message}))}});
+}
+window.__searchReview={getData:()=>DATA,getState:()=>state,validate:()=>DATA?DATA.products.map(p=>({id:p.id,invalid:invalidCount(p),status:p.status})):[],payload:()=>DATA?payload(prod()):null};
+(function start(){
+ const raw=$('review-data').textContent.trim();
+ if(!raw||raw.startsWith('/*')){showLoader('');return}
+ try{boot(JSON.parse(raw))}catch(err){DATA=null;showLoader(fill(DEFAULT_LABELS.loaderError,{error:err.message}))}
+})();
+</script></body></html>
